@@ -1,0 +1,38 @@
+/* hover en navbar */
+.p-menuitem-text {
+    color: inherit !important;
+}
+.p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link:hover {
+    color: var(--primary-color-hover) !important;
+}
+.p-menubar .p-menuitem-link:hover {
+    color: var(--primary-color-hover) !important;
+}
+/* hover en menu-end */
+.menu-end:hover{
+    color: var(--primary-color-hover) !important;
+}
+.menu-end > button{
+    color: inherit !important;
+}
+.menu-end > i{
+    color: inherit !important;
+}
+.p-menuitem-link:hover{
+    color: var(--primary-color-hover) !important;
+}
+/* kitar border in subMenu navbar */
+.p-menubar .p-submenu-list {
+    border: none;
+}
+/* kitar border in subMenu menu-end */
+.p-menu.p-menu-overlay {
+    border: none;
+}
+.p-menubar-button > i {
+    font-size: 2rem;
+    margin-left: 1rem;
+}
+.p-menubar-button:hover {
+    color: var(--primary-color-hover) !important;
+}
