@@ -64,10 +64,10 @@ export const Users = () => {
       .catch((error) => console.log(error.message));
   };
   const deleteElement = (id) => {
-    if (JSON.parse(localStorage.getItem("user")).pkUsuario === id) {
-      fireError("No puede eliminar el usuario actualmente logeado");
-      return;
-    }
+    // if (JSON.parse(localStorage.getItem("user")).idUsuario === id) {
+    //   fireError("No puede eliminar el usuario actualmente logeado");
+    //   return;
+    // }
     axios
       .delete(`usuarios/${id}`, id)
       .then((_) => {
@@ -78,12 +78,12 @@ export const Users = () => {
       });
   };
   const deleteSeveralElement = (arrayId) => {
-    if (arrayId.includes(JSON.parse(localStorage.getItem("user")).pkUsuario)) {
-      fireError("No puede eliminar el usuario actualmente logeado");
-      return;
-    }
+    // if (arrayId.includes(JSON.parse(localStorage.getItem("user")).idUsuario)) {
+    //   fireError("No puede eliminar el usuario actualmente logeado");
+    //   return;
+    // }
     axios
-      .delete("usuarios/bulk", { data: arrayId })
+      .delete("usuarios", { data: arrayId })
       .then((_) => {
         cargarDatos();
       })

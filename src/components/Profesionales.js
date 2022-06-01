@@ -5,19 +5,19 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { Table } from "./ui/Table";
 import axios from "axios";
 
-export const Subservicios = () => {
-  const [subservicios, setSubservicios] = useState(null);
+export const Profesionales = () => {
+  const [profesionales, setProfesionales] = useState(null);
 
   useEffect(() => {
     cargarDatos();
   }, []);
   const cargarDatos = () => {
     axios
-      .get("subservicios")
+      .get("profesionales")
       .then((resp) => {
         if (resp) {
           console.log(resp.data);
-          setSubservicios(resp.data);
+          setProfesionales(resp.data);
         }
       })
       .catch((error) => console.log(error.message));
@@ -25,7 +25,7 @@ export const Subservicios = () => {
   const modifyElement = (element) => {
     console.log(element);
     axios
-      .patch("subservicios", element)
+      .patch("profesionales", element)
       .then((resp) => {
         cargarDatos();
       })
@@ -33,7 +33,7 @@ export const Subservicios = () => {
   };
   const createElement = (element) => {
     axios
-      .post("subservicios", element)
+      .post("profesionales", element)
       .then((resp) => {
         cargarDatos();
       })
@@ -41,7 +41,7 @@ export const Subservicios = () => {
   };
   const deleteElement = (id) => {
     axios
-      .delete(`subservicios/${id}`, id)
+      .delete(`profesionales/${id}`, id)
       .then((_) => {
         cargarDatos();
       })
@@ -51,7 +51,7 @@ export const Subservicios = () => {
   };
   const deleteSeveralElement = (arrayId) => {
     axios
-      .delete("subservicios/", { data: arrayId })
+      .delete("profesionales/", { data: arrayId })
       .then((_) => {
         cargarDatos();
       })
@@ -60,27 +60,58 @@ export const Subservicios = () => {
   const filters = {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     nombre: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    descripcion: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    correo: { value: null, matchMode: FilterMatchMode.CONTAINS },
+    cargo: { value: null, matchMode: FilterMatchMode.CONTAINS },
   };
   let c = [
-    { field: "nombre", header: "Subservicio" },
+    { field: "nombre", header: "Nombre" },
+    { field: "descripcion", header: "Descripción" },
+    { field: "correo", header: "Correo" },
+    { field: "cargo", header: "Cargo" },
   ];
 
-  let emptyElement = { nombre: "" };
-
+  let emptyElement = { nombre: "", descripcion: "", correo: "", cargo: "" };
 
   //Form
   //React-hook-form
   const schema = yup.object().shape({
-    nombre: yup
-      .string()
-      .required("Subservicio es requerido")
+    nombre: yup.string().required("Nombre es requerido"),
+    descripcion: yup.string().required("Descripción es requerido"),
+    correo: yup
+    .string()
+    .email("Correo electrónico inválido. Ej: contratos@davinci.com")
+    .required("Correo es requerido")
+    .nullable("Correo es requerido"),
+    imagen: yup.object(),
   });
   let dataStruct = [
     {
       id: 1,
-      label: "Subservicio:*",
+      label: "Nombre:*",
       component: "InputText",
       name: "nombre",
+      defaultValue: "",
+    },
+    {
+      id: 1,
+      label: "Descripción:*",
+      component: "InputText",
+      name: "descripcion",
+      defaultValue: "",
+    },
+    {
+      id: 1,
+      label: "Correo:*",
+      component: "InputText",
+      name: "correo",
+      defaultValue: "",
+    },
+    {
+      id: 1,
+      label: "Cargo:",
+      component: "InputText",
+      name: "cargo",
       defaultValue: "",
     },
   ];
@@ -92,16 +123,16 @@ export const Subservicios = () => {
   };
   return (
     <div>
-      {!subservicios && (
+      {!profesionales && (
         <div className="flex h-30rem justify-content-center align-items-center">
           <ProgressSpinner strokeWidth="3" />
         </div>
       )}
-      {subservicios ? (
+      {profesionales ? (
         <div>
           <Table
-            value={subservicios}
-            header="Subservicios"
+            value={profesionales}
+            header="Profesionales"
             size="small"
             columns={c}
             pagination={true}

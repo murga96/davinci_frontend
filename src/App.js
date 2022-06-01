@@ -12,6 +12,7 @@ import { Home } from "./components/Home";
 import { Users } from "./components/Users/User";
 import { Subservicios } from "./components/Subservicios";
 import { fireError } from "./components/utils";
+import { Profesionales } from "./components/Profesionales";
 
 function App() {
   addLocale("es", {
@@ -104,7 +105,8 @@ function App() {
       let message = serverResponse.message
       switch (serverResponse.error) {
         case "QueryFailedError":
-          message = `${serverResponse.message.split("(")[1].replace(").","")} existe y no puede ser duplicado.`
+          if(serverResponse.message.includes("UNIQUE"))
+            message = `${serverResponse.message.split("(")[1].replace(").","")} existe y no puede ser duplicado.`
           break;
       }
       fireError(message)
@@ -120,7 +122,7 @@ function App() {
           <Route path="/usuarios" element={<Users/>} />
           <Route path="/servicios" element={<Users/>} />
           <Route path="/subservicios" element={<Subservicios/>} />
-          <Route path="/profesionales" element={<Users/>} />
+          <Route path="/profesionales" element={<Profesionales/>} />
 
         </Route>
         </Routes>
