@@ -88,6 +88,19 @@ export const Navbar = () => {
       },
       template: (item, options) => menuTemplate(item, options),
     },
+    {
+      label: "Configuración",
+      icon: (
+        <Icon
+          icon="carbon:user-multiple"
+          style={{ fontSize: "24px", marginRight: "0.5rem" }}
+        />
+      ),
+      command: () => {
+        navigate(`/configuracion`);
+      },
+      template: (item, options) => menuTemplate(item, options),
+    },
   ];
   const menuUser = [
     {

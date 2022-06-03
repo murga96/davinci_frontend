@@ -10,12 +10,12 @@ export const ConfiguracionComponent = () => {
   const [name, setName] = useState("my-upload")
   
   const onError = err => {
-    consoleLog("Error", err);
+    console.log("Error", err);
   };
   
   const onSuccess = (res,i) => {
-    consoleLog("Success", res);
-    consoleLog(i);
+    console.log("Success", res);
+    console.log(i);
     setName(res.name)
 
   };

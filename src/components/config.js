@@ -1,7 +1,7 @@
 import axios from 'axios';
 import PrimeReact from 'primereact/api';
 import { addLocale, locale } from "primereact/api";
-import { fireError } from './utils';
+import { consoleLog, fireError } from './utils';
 
 
 export const setPrimeReactInitialConfig = () => {
@@ -90,12 +90,12 @@ export const setPrimeReactInitialConfig = () => {
 }
 
 export const setAxiosConfig = () => {
-  //setting default configs for axios
-  axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+  //setting default configs for axios 
+  axios.defaults.baseURL = process.env.REACT_APP_URL_API;
   axios.interceptors.response.use((response) => (response), ({response: errorResponse}) => {
     const serverResponse = errorResponse?.data
     if(serverResponse){
-      console.log(serverResponse)
+      // console.log(serverResponse)
       let message = serverResponse.message
       switch (serverResponse.error) {
         case "QueryFailedError":

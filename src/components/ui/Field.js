@@ -15,7 +15,6 @@ import "./Field.css";
 import { Password } from "primereact/password";
 import moment from "moment";
 import { IKUpload } from "imagekitio-react";
-import { consoleLog } from "../utils";
 
 export const Field = ({ type, name, defaultValue, props, label }) => {
   const {
@@ -295,7 +294,6 @@ export const Field = ({ type, name, defaultValue, props, label }) => {
             control={control}
             render={({ field, fieldState }) => {
               if(!moment.isDate(field.value)){
-                consoleLog("not date")
                 field.value = moment(field.value).toDate()
               }
               return (
@@ -459,7 +457,6 @@ export const Field = ({ type, name, defaultValue, props, label }) => {
     case "EmptyCol":
       return <div />;
     default:
-      consoleLog("Default");
       break;
   }
 };

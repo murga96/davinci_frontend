@@ -25,7 +25,6 @@ export const Form = forwardRef(({
       }
     })
   )
-  // consoleLog(methods.formState.errors, "errors")
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(handle)}>

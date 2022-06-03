@@ -24,7 +24,7 @@ export function useToken(onTokenInvalid, onRefreshRequired) {
   }, []);
 
   const clearToken = useCallback(async () => {
-    consoleLog("clearToken");
+    console.log("clearToken");
     localStorage.removeItem("token");
     // clear auto refresh interval
     clearAutomaticTokenRefresh();
@@ -34,7 +34,7 @@ export function useToken(onTokenInvalid, onRefreshRequired) {
     axios.interceptors.response.use(
       (response) => response,
       (error) => {
-        consoleLog(JSON.parse(JSON.stringify(error)));
+        console.log(JSON.parse(JSON.stringify(error)));
         if (error.response) {
           switch (error.response?.status) {
             case 403: {
@@ -73,7 +73,7 @@ export function useToken(onTokenInvalid, onRefreshRequired) {
               break;
           }
         } else {
-          consoleLog(error.toJSON(), "json");
+          console.log(error.toJSON(), "json");
           if (error) fireError("Error", error.message);
         }
       }

@@ -17,20 +17,20 @@ export const Subservicios = () => {
       .get("subservicios")
       .then((resp) => {
         if (resp) {
-          consoleLog(resp.data);
+          console.log(resp.data);
           setSubservicios(resp.data);
         }
       })
-      .catch((error) => consoleLog(error.message));
+      .catch((error) => console.log(error.message));
   };
   const modifyElement = (element) => {
-    consoleLog(element);
+    console.log(element);
     axios
       .patch("subservicios", element)
       .then((resp) => {
         cargarDatos();
       })
-      .catch((error) => consoleLog(error.message));
+      .catch((error) => console.log(error.message));
   };
   const createElement = (element) => {
     axios
@@ -38,7 +38,7 @@ export const Subservicios = () => {
       .then((resp) => {
         cargarDatos();
       })
-      .catch((error) => consoleLog(error.toJSON()));
+      .catch((error) => console.log(error.toJSON()));
   };
   const deleteElement = (id) => {
     axios
@@ -47,7 +47,7 @@ export const Subservicios = () => {
         cargarDatos();
       })
       .catch((error) => {
-        consoleLog(error.message);
+        console.log(error.message);
       });
   };
   const deleteSeveralElement = (arrayId) => {
@@ -56,7 +56,7 @@ export const Subservicios = () => {
       .then((_) => {
         cargarDatos();
       })
-      .catch((error) => consoleLog(error.message));
+      .catch((error) => console.log(error.message));
   };
   const filters = {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },

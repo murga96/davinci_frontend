@@ -8,13 +8,15 @@ import { ConfiguracionComponent } from "./components/ConfiguracionComponent";
 import { Home } from "./components/Home";
 import { Users } from "./components/Users/User";
 import { Subservicios } from "./components/Subservicios";
-import { setPrimeReactInitialConfig } from "./components/config";
+import { setAxiosConfig, setPrimeReactInitialConfig } from "./components/config";
 import { Profesionales } from "./components/Profesionales";
 import { Servicios } from "./components/Servicios";
+
 
 function App() {
   //primereact intial config
   setPrimeReactInitialConfig()
+  setAxiosConfig()
   
   return (
     <div className="App">
@@ -26,7 +28,6 @@ function App() {
           <Route path="/servicios" element={<Servicios/>} />
           <Route path="/subservicios" element={<Subservicios/>} />
           <Route path="/profesionales" element={<Profesionales/>} />
-
         </Route>
         </Routes>
       </Router>

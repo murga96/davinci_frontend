@@ -20,32 +20,32 @@ export const Servicios = () => {
       .get("subservicios/")
       .then((resp) => {
         if (resp?.data) {
-          consoleLog(resp.data);
+          console.log(resp.data);
           setSubservicios(resp.data);
         }
       })
-      .catch((error) => consoleLog(error.message));
+      .catch((error) => console.log(error.message));
   };
   const cargarDatos = () => {
     axios
       .get("servicios")
       .then((resp) => {
         if (resp) {
-          consoleLog(resp.data);
+          console.log(resp.data);
           setServicios(resp.data);
           cargarSubservicios()
         }
       })
-      .catch((error) => consoleLog(error.message));
+      .catch((error) => console.log(error.message));
   };
   const modifyElement = (element) => {
-    consoleLog(element);
+    console.log(element);
     axios
       .patch("servicios", element)
       .then((resp) => {
         cargarDatos();
       })
-      .catch((error) => consoleLog(error.message));
+      .catch((error) => console.log(error.message));
   };
   const createElement = (element) => {
     axios
@@ -53,7 +53,7 @@ export const Servicios = () => {
       .then((resp) => {
         cargarDatos();
       })
-      .catch((error) => consoleLog(error.toJSON()));
+      .catch((error) => console.log(error.toJSON()));
   };
   const deleteElement = (id) => {
     axios
@@ -62,7 +62,7 @@ export const Servicios = () => {
         cargarDatos();
       })
       .catch((error) => {
-        consoleLog(error.message);
+        console.log(error.message);
       });
   };
   const deleteSeveralElement = (arrayId) => {
@@ -71,7 +71,7 @@ export const Servicios = () => {
       .then((_) => {
         cargarDatos();
       })
-      .catch((error) => consoleLog(error.message));
+      .catch((error) => console.log(error.message));
   };
   //Table
   FilterService.register("filterArray", (value, filters) => {

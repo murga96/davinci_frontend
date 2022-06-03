@@ -50,7 +50,6 @@ export const Table = ({
   const [formData, setFormData] = useState(null);
   //header and columns
   const h = <div className="table-header">{header}</div>;
-consoleLog(value)
   const bodyChecker = (rowData, item) => {
     const havePoint = item.field.split(".").length !== 0;
     if (typeof get(rowData, item.field) === "boolean") {
@@ -78,7 +77,6 @@ consoleLog(value)
         //llave del objeto
         const objectKey = Object.keys(array[0]);
         //Obtengo el segundo item del arreglo para mostrarlo en la cadena
-        // consoleLog(get(rowData, item.field).map((i) =>  Object.keys(i).length === 1 ? i[objectKey][Object.keys(i[objectKey])[1]] : i[Object.keys(i)[1]]).toString())
         return array
           .map((i) =>
             Object.keys(i).length === 1
@@ -96,7 +94,6 @@ consoleLog(value)
     let ret = "";
     const type = value.length > 0 && typeof Object.values(value[0])[i + 1];
     if (col.type) {
-      consoleLog(col, "object");
       ret = col.type;
     } else if (type === "number") {
       ret = "numeric";
@@ -114,7 +111,6 @@ consoleLog(value)
       />
     );
   };
-  consoleLog(value, columns);
   const dynamicColumns = columns.map((col, i) => {
     return (
       <Column
@@ -149,7 +145,6 @@ consoleLog(value)
     dataKey: col.field,
   }));
   const changeValuesFormData = (elem, edit) => {
-    consoleLog(elem, "elem");
     let fp = formProps?.data;
     if (Array.isArray(formProps?.data[0])) {
       if (
@@ -164,10 +159,8 @@ consoleLog(value)
     for (let index = 0; index < formProps.data.length; index++) {
       // delete fp[0].defaultValue
       const value = get(elem, fp[index].name);
-      consoleLog(value, "value");
       if (Array.isArray(value)) {
         if (value.length > 0) {
-          consoleLog("array");
           //llaves del objeto
           const objectKey = Object.keys(value[0]);
           //Obtengo el primer item dependiendo si es un objeto con llave o no
@@ -181,11 +174,9 @@ consoleLog(value)
         }
       } /* else if (typeof value === "object") {
         //Es objeto el valor
-        consoleLog("object");
         //Obtener el id en vez del nombre (el id siempre ira primero en la consulta graphql)
         formProps.data[index].defaultValue = Object.values(value)[0];
       } */ else {
-        consoleLog("normal");
         fp[index].defaultValue = value;
       }
     }
@@ -227,7 +218,6 @@ consoleLog(value)
   const deleteElements = () => {
     //bulk delete
     const arr = [];
-    consoleLog(dt.current.constructor.name)
     dt.current.props.selection.map((item) => {
       arr.push(Object.values(item)[0]);
     });
@@ -246,9 +236,8 @@ consoleLog(value)
     setEditDialog(true);
   };
   const saveElement = (data) => {
-    consoleLog("handle", data);
+    console.log("handle", data);
     let temp = {};
-    consoleLog(element, "element");
     //Modificar
     if (Object.keys(element)[0].includes("id")) {
       Object.assign(temp, element);
@@ -256,7 +245,6 @@ consoleLog(value)
       try {
         formProps.handle[1](temp);
       } catch (error) {
-        consoleLog("object");
         fireError(error);
       }
     } else {
@@ -265,7 +253,6 @@ consoleLog(value)
       try {
         formProps.handle[0](temp);
       } catch (error) {
-        consoleLog("object");
         fireError(error);
       }
     }
@@ -288,11 +275,8 @@ consoleLog(value)
               const array = get(index, x.dataKey.split(".")[0]);
               if (array.length > 0) {
                 //llave del objeto
-                consoleLog("bodyArray");
                 const objectKey = Object.keys(array[0]);
-                consoleLog(objectKey);
                 //Obtengo el segundo item del arreglo para mostrarlo en la cadena
-                // consoleLog(get(rowData, item.field).map((i) =>  Object.keys(i).length === 1 ? i[objectKey][Object.keys(i[objectKey])[1]] : i[Object.keys(i)[1]]).toString())
                 temp.push(
                   array
                     .map((i) =>
@@ -310,7 +294,6 @@ consoleLog(value)
           arr.push(temp);
           temp = [];
         });
-        consoleLog(arr);
         doc.autoTableSetDefaults(
           {
             headStyles: { fillColor: "#ed2939" }, // Purple
@@ -354,11 +337,8 @@ consoleLog(value)
             const array = get(v, col.dataKey.split(".")[0]);
             if (array.length > 0) {
               //llave del objeto
-              consoleLog("bodyArray");
               const objectKey = Object.keys(array[0]);
-              consoleLog(objectKey);
               //Obtengo el segundo item del arreglo para mostrarlo en la cadena
-              // consoleLog(get(rowData, item.field).map((i) =>  Object.keys(i).length === 1 ? i[objectKey][Object.keys(i[objectKey])[1]] : i[Object.keys(i)[1]]).toString())
               obj[col.title] = array
                 .map((i) =>
                   Object.keys(i).length === 1
@@ -611,12 +591,6 @@ consoleLog(value)
           )}
         </div>
       </Dialog>
-      {/* Array.isArray(formProps?.data[0])
-              ? Object.keys(element).length === 0 ||
-                !Object.keys(element)[0].includes("pk")
-                ? formProps?.data[1]
-                : formProps?.data[0]
-              : formProps?.data */}
       <Dialog
         visible={editDialog}
         style={{ width: "450px" }}
@@ -634,8 +608,6 @@ consoleLog(value)
           setEditDialog(false);
         }}
       >
-        {consoleLog(formProps)}
-        {consoleLog(element, "element")}
         <Form
           data={formData}
           schema={formProps?.schema}

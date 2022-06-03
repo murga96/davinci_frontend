@@ -35,6 +35,6 @@ export const fireInfo = ( message) => {
 
 export const consoleLog = (element) => {
   if(process.env.NODE_ENV !== 'production'){
-    return consoleLog(element)
+    return console.log(element)
   }
 }

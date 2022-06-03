@@ -66,10 +66,10 @@ function useAuth() {
         })
         if(resp?.data){
           const {data} = resp
-          consoleLog(data)
+          console.log(data)
           setTokenExpiration(tokenExp)
           localStorage.setItem("user", JSON.stringify({userName: data.userName,pkUsuario: data.pkUsuario, authorities: data.authorities, listPermits: data.listPermits}))
-          consoleLog(data.token,"token")
+          console.log(data.token,"token")
           setToken(tokenExp, data.token);
           return data.authorities
         }
@@ -90,15 +90,15 @@ function useAuth() {
           } = await axios.post('auth/refresh', {
               token: localStorage.getItem("token")
           });
-          consoleLog(token)
+          console.log(token)
           setToken(tokenExpiration, token);
           //TODO hacer refresh al principio pa coger los datos si no ha expirado
-          // consoleLog("hay k hacer refresh al principio")
+          // console.log("hay k hacer refresh al principio")
       } catch (error) {
           clearToken()
           localStorage.removeItem("user")
           navigate('/login');
-          consoleLog(error)
+          console.log(error)
       }
   }
 

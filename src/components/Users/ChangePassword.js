@@ -32,7 +32,7 @@ export const ChangePassword = () => {
       passwordNew: newPassword,
       username: JSON.parse(localStorage.getItem("user")).userName,
     };
-    consoleLog(body);
+    console.log(body);
     axios
       .post("usuario_controller/cambiarContrasena", body)
       .then((resp) => {

@@ -9,10 +9,10 @@ export function useTokenExpiration(onTokenRefreshRequired) {
   useEffect(() => {
     // get a new access token with the refresh token when it expires
     if (tokenExpiration) {
-      consoleLog(tokenExpiration, "entro")
+      console.log(tokenExpiration, "entro")
       const now = new Date();
       timeoutRef.current = window.setInterval(async () => {
-        consoleLog("timer")
+        console.log("timer")
         onTokenRefreshRequired();
       }, tokenExpiration * 1000);
     }

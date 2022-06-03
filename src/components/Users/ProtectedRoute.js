@@ -11,7 +11,7 @@ export const AuthenticateRoute = ({ component: Component, path }) => {
   
 
   useEffect(() => {
-    consoleLog(JSON.stringify(JSON.parse(localStorage.getItem("user"))));
+    console.log(JSON.stringify(JSON.parse(localStorage.getItem("user"))));
     if (!JSON.parse(localStorage.getItem("user")) && !unathourized_pages.includes(path)) {
       fireError("El usuario no se encuentra autenticado para acceder a la página");
       navigate("/login");

@@ -19,31 +19,31 @@ export const Profesionales = () => {
     .get("profesionales")
     .then((resp) => {
       if (resp) {
-        consoleLog(resp.data);
+        console.log(resp.data);
         setProfesionales(resp.data);
       }
     })
-    .catch((error) => consoleLog(error.message));
+    .catch((error) => console.log(error.message));
   };
 
   const onError = err => {
-    consoleLog("Error", err);
+    console.log("Error", err);
   };
   
   const onSuccess = (res) => {
-    consoleLog("Success", res);
+    console.log("Success", res);
     setName(res.name)
 
   };
 
   const modifyElement = (element) => {
-    consoleLog(element);
+    console.log(element);
     axios
       .patch("profesionales", element)
       .then((resp) => {
         cargarDatos();
       })
-      .catch((error) => consoleLog(error.message));
+      .catch((error) => console.log(error.message));
   };
   const createElement = (element) => {
     axios
@@ -51,7 +51,7 @@ export const Profesionales = () => {
       .then((resp) => {
         cargarDatos();
       })
-      .catch((error) => consoleLog(error.toJSON()));
+      .catch((error) => console.log(error.toJSON()));
   };
   const deleteElement = (id) => {
     axios
@@ -60,7 +60,7 @@ export const Profesionales = () => {
         cargarDatos();
       })
       .catch((error) => {
-        consoleLog(error.message);
+        console.log(error.message);
       });
   };
   const deleteSeveralElement = (arrayId) => {
@@ -69,7 +69,7 @@ export const Profesionales = () => {
       .then((_) => {
         cargarDatos();
       })
-      .catch((error) => consoleLog(error.message));
+      .catch((error) => console.log(error.message));
   };
   const filters = {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
