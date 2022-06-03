@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import {roles_pages, unathourized_pages} from "./RolesPages";
 import {fireError} from "./../components/utils"
+import { consoleLog } from "../utils";
 
 
 export const AuthenticateRoute = ({ component: Component, path }) => {
@@ -10,7 +11,7 @@ export const AuthenticateRoute = ({ component: Component, path }) => {
   
 
   useEffect(() => {
-    console.log(JSON.stringify(JSON.parse(localStorage.getItem("user"))));
+    consoleLog(JSON.stringify(JSON.parse(localStorage.getItem("user"))));
     if (!JSON.parse(localStorage.getItem("user")) && !unathourized_pages.includes(path)) {
       fireError("El usuario no se encuentra autenticado para acceder a la página");
       navigate("/login");

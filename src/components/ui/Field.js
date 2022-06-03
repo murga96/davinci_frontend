@@ -14,6 +14,8 @@ import { classNames } from "primereact/utils";
 import "./Field.css";
 import { Password } from "primereact/password";
 import moment from "moment";
+import { IKUpload } from "imagekitio-react";
+import { consoleLog } from "../utils";
 
 export const Field = ({ type, name, defaultValue, props, label }) => {
   const {
@@ -293,7 +295,7 @@ export const Field = ({ type, name, defaultValue, props, label }) => {
             control={control}
             render={({ field, fieldState }) => {
               if(!moment.isDate(field.value)){
-                console.log("not date")
+                consoleLog("not date")
                 field.value = moment(field.value).toDate()
               }
               return (
@@ -390,6 +392,42 @@ export const Field = ({ type, name, defaultValue, props, label }) => {
           {getFormErrorMessage(name)}
         </div>
       );
+    case "IKUpload":
+      return (
+        <div>
+          <label
+            htmlFor={name}
+            className={classNames(
+              { "p-error": errors.email },
+              "block text-900 font-medium mb-2"
+            )}
+          >
+            {label}
+          </label>
+          <Controller
+            name={name}
+            defaultValue={defaultValue}
+            control={control}
+            render={({ field, fieldState }) => {
+              return (
+                <IKUpload
+                  {...props}
+                  {...field}
+                  // value={field.value}
+                  // onChange={(e) => field.onChange(e.target.value)}
+                  id={field.name}
+                  className={classNames(
+                    { "p-invalid": fieldState.invalid },
+                    "w-full mb-2",
+                    props?.className
+                  )}
+                />
+              );
+            }}
+          />
+          {getFormErrorMessage(name)}
+        </div>
+      );
     case "label":
       return (
         <label
@@ -421,7 +459,7 @@ export const Field = ({ type, name, defaultValue, props, label }) => {
     case "EmptyCol":
       return <div />;
     default:
-      console.log("Default");
+      consoleLog("Default");
       break;
   }
 };

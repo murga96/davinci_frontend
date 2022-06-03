@@ -3,6 +3,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTokenExpiration } from "./useTokenExpiration";
 import { useNavigate } from "react-router-dom";
 import { fireError } from "../components/utils";
+import { consoleLog } from "../utils";
 
 export function useToken(onTokenInvalid, onRefreshRequired) {
   const history = useNavigate();
@@ -23,7 +24,7 @@ export function useToken(onTokenInvalid, onRefreshRequired) {
   }, []);
 
   const clearToken = useCallback(async () => {
-    console.log("clearToken");
+    consoleLog("clearToken");
     localStorage.removeItem("token");
     // clear auto refresh interval
     clearAutomaticTokenRefresh();
@@ -33,7 +34,7 @@ export function useToken(onTokenInvalid, onRefreshRequired) {
     axios.interceptors.response.use(
       (response) => response,
       (error) => {
-        console.log(JSON.parse(JSON.stringify(error)));
+        consoleLog(JSON.parse(JSON.stringify(error)));
         if (error.response) {
           switch (error.response?.status) {
             case 403: {
@@ -72,7 +73,7 @@ export function useToken(onTokenInvalid, onRefreshRequired) {
               break;
           }
         } else {
-          console.log(error.toJSON(), "json");
+          consoleLog(error.toJSON(), "json");
           if (error) fireError("Error", error.message);
         }
       }

@@ -1,6 +1,7 @@
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content"
 
+
 const MySwal = withReactContent(Swal)
 
 export const fireError = ( message) => {
@@ -30,4 +31,10 @@ export const fireInfo = ( message) => {
         },
         buttonsStyling: false
       });
+}
+
+export const consoleLog = (element) => {
+  if(process.env.NODE_ENV !== 'production'){
+    return consoleLog(element)
+  }
 }

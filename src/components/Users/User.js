@@ -7,7 +7,7 @@ import { MultiSelect } from "primereact/multiselect";
 import { Table } from "../ui/Table";
 import axios from "axios";
 import { confirmDialog } from "primereact/confirmdialog";
-import { fireError, fireInfo } from "../utils";
+import { consoleLog, fireError, fireInfo } from "../utils";
 
 export const Users = () => {
   const [users, setUsers] = useState(null);
@@ -22,7 +22,7 @@ export const Users = () => {
   //     .get("rol_controller/listar")
   //     .then((resp) => {
   //       if (resp?.data) {
-  //         console.log(resp.data);
+  //         consoleLog(resp.data);
   //         setRoles(resp.data);
   //         setRoles1(
   //           resp.data.filter(
@@ -32,28 +32,28 @@ export const Users = () => {
   //         );
   //       }
   //     })
-  //     .catch((error) => console.log(error.message));
+  //     .catch((error) => consoleLog(error.message));
   // };
   const cargarDatos = () => {
     axios
       .get("usuarios")
       .then((resp) => {
         if (resp) {
-          console.log(resp.data);
+          consoleLog(resp.data);
           setUsers(resp.data);
           // cargarRoles();
         }
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => consoleLog(error.message));
   };
   const modifyElement = (element) => {
-    console.log(element);
+    consoleLog(element);
     axios
       .patch("usuarios", element)
       .then((resp) => {
         cargarDatos();
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => consoleLog(error.message));
   };
   const createElement = (element) => {
     axios
@@ -61,7 +61,7 @@ export const Users = () => {
       .then((resp) => {
         cargarDatos();
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => consoleLog(error.message));
   };
   const deleteElement = (id) => {
     // if (JSON.parse(localStorage.getItem("user")).idUsuario === id) {
@@ -74,7 +74,7 @@ export const Users = () => {
         cargarDatos();
       })
       .catch((error) => {
-        console.log(error.message);
+        consoleLog(error.message);
       });
   };
   const deleteSeveralElement = (arrayId) => {
@@ -87,7 +87,7 @@ export const Users = () => {
       .then((_) => {
         cargarDatos();
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => consoleLog(error.message));
   };
   const filters = {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -100,7 +100,7 @@ export const Users = () => {
   let emptyElement = { username: "" };
 
   const confirmForcePassword = (elem) => {
-    console.log(elem,"first")
+    consoleLog(elem,"first")
     confirmDialog({
       header: "Confirmación",
       message: `¿Desea resetear la contraseña al usuario ${elem.username}?`,
@@ -127,7 +127,7 @@ export const Users = () => {
           );
         }
       })
-      .catch((error) => console.log(error.response.data.message));
+      .catch((error) => consoleLog(error.response.data.message));
   };
 
   //Form

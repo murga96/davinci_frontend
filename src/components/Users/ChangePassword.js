@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Form } from "../components/ui/Form";
 import axios from "axios";
 import {fireError} from "./../components/utils"
+import { consoleLog } from "../utils";
 // import { actionTypes } from "../../Reducer";
 
 export const ChangePassword = () => {
@@ -31,7 +32,7 @@ export const ChangePassword = () => {
       passwordNew: newPassword,
       username: JSON.parse(localStorage.getItem("user")).userName,
     };
-    console.log(body);
+    consoleLog(body);
     axios
       .post("usuario_controller/cambiarContrasena", body)
       .then((resp) => {

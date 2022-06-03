@@ -4,6 +4,7 @@ import * as yup from "yup";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Table } from "./ui/Table";
 import axios from "axios";
+import { consoleLog } from "./utils";
 
 export const Subservicios = () => {
   const [subservicios, setSubservicios] = useState(null);
@@ -16,20 +17,20 @@ export const Subservicios = () => {
       .get("subservicios")
       .then((resp) => {
         if (resp) {
-          console.log(resp.data);
+          consoleLog(resp.data);
           setSubservicios(resp.data);
         }
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => consoleLog(error.message));
   };
   const modifyElement = (element) => {
-    console.log(element);
+    consoleLog(element);
     axios
       .patch("subservicios", element)
       .then((resp) => {
         cargarDatos();
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => consoleLog(error.message));
   };
   const createElement = (element) => {
     axios
@@ -37,7 +38,7 @@ export const Subservicios = () => {
       .then((resp) => {
         cargarDatos();
       })
-      .catch((error) => console.log(error.toJSON()));
+      .catch((error) => consoleLog(error.toJSON()));
   };
   const deleteElement = (id) => {
     axios
@@ -46,7 +47,7 @@ export const Subservicios = () => {
         cargarDatos();
       })
       .catch((error) => {
-        console.log(error.message);
+        consoleLog(error.message);
       });
   };
   const deleteSeveralElement = (arrayId) => {
@@ -55,7 +56,7 @@ export const Subservicios = () => {
       .then((_) => {
         cargarDatos();
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => consoleLog(error.message));
   };
   const filters = {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },

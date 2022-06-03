@@ -21,12 +21,11 @@ export const Form = forwardRef(({
   
   useImperativeHandle(ref, () => ({
       setValues: (name, value) => {
-        console.log("first")
         methods.setValue(name, value)
       }
     })
   )
-  // console.log(methods.formState.errors, "errors")
+  // consoleLog(methods.formState.errors, "errors")
   return (
     <FormProvider {...methods}>
       <form onSubmit={methods.handleSubmit(handle)}>

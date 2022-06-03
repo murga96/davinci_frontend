@@ -15,7 +15,7 @@ import logo from "../../assets/images/logo1.png";
 import pie from "../../assets/images/piepag.png";
 import { MultiSelect } from "primereact/multiselect";
 import { FilterService } from "primereact/api";
-import { fireError } from "../utils";
+import { consoleLog, fireError } from "../utils";
 
 
 export const Table = ({
@@ -50,7 +50,7 @@ export const Table = ({
   const [formData, setFormData] = useState(null);
   //header and columns
   const h = <div className="table-header">{header}</div>;
-console.log(value)
+consoleLog(value)
   const bodyChecker = (rowData, item) => {
     const havePoint = item.field.split(".").length !== 0;
     if (typeof get(rowData, item.field) === "boolean") {
@@ -78,7 +78,7 @@ console.log(value)
         //llave del objeto
         const objectKey = Object.keys(array[0]);
         //Obtengo el segundo item del arreglo para mostrarlo en la cadena
-        // console.log(get(rowData, item.field).map((i) =>  Object.keys(i).length === 1 ? i[objectKey][Object.keys(i[objectKey])[1]] : i[Object.keys(i)[1]]).toString())
+        // consoleLog(get(rowData, item.field).map((i) =>  Object.keys(i).length === 1 ? i[objectKey][Object.keys(i[objectKey])[1]] : i[Object.keys(i)[1]]).toString())
         return array
           .map((i) =>
             Object.keys(i).length === 1
@@ -96,7 +96,7 @@ console.log(value)
     let ret = "";
     const type = value.length > 0 && typeof Object.values(value[0])[i + 1];
     if (col.type) {
-      console.log(col, "object");
+      consoleLog(col, "object");
       ret = col.type;
     } else if (type === "number") {
       ret = "numeric";
@@ -114,7 +114,7 @@ console.log(value)
       />
     );
   };
-  console.log(value, columns);
+  consoleLog(value, columns);
   const dynamicColumns = columns.map((col, i) => {
     return (
       <Column
@@ -149,7 +149,7 @@ console.log(value)
     dataKey: col.field,
   }));
   const changeValuesFormData = (elem, edit) => {
-    console.log(elem, "elem");
+    consoleLog(elem, "elem");
     let fp = formProps?.data;
     if (Array.isArray(formProps?.data[0])) {
       if (
@@ -164,10 +164,10 @@ console.log(value)
     for (let index = 0; index < formProps.data.length; index++) {
       // delete fp[0].defaultValue
       const value = get(elem, fp[index].name);
-      console.log(value, "value");
+      consoleLog(value, "value");
       if (Array.isArray(value)) {
         if (value.length > 0) {
-          console.log("array");
+          consoleLog("array");
           //llaves del objeto
           const objectKey = Object.keys(value[0]);
           //Obtengo el primer item dependiendo si es un objeto con llave o no
@@ -181,11 +181,11 @@ console.log(value)
         }
       } /* else if (typeof value === "object") {
         //Es objeto el valor
-        console.log("object");
+        consoleLog("object");
         //Obtener el id en vez del nombre (el id siempre ira primero en la consulta graphql)
         formProps.data[index].defaultValue = Object.values(value)[0];
       } */ else {
-        console.log("normal");
+        consoleLog("normal");
         fp[index].defaultValue = value;
       }
     }
@@ -227,7 +227,7 @@ console.log(value)
   const deleteElements = () => {
     //bulk delete
     const arr = [];
-    console.log(dt.current.constructor.name)
+    consoleLog(dt.current.constructor.name)
     dt.current.props.selection.map((item) => {
       arr.push(Object.values(item)[0]);
     });
@@ -246,9 +246,9 @@ console.log(value)
     setEditDialog(true);
   };
   const saveElement = (data) => {
-    console.log("handle", data);
+    consoleLog("handle", data);
     let temp = {};
-    console.log(element, "element");
+    consoleLog(element, "element");
     //Modificar
     if (Object.keys(element)[0].includes("id")) {
       Object.assign(temp, element);
@@ -256,7 +256,7 @@ console.log(value)
       try {
         formProps.handle[1](temp);
       } catch (error) {
-        console.log("object");
+        consoleLog("object");
         fireError(error);
       }
     } else {
@@ -265,7 +265,7 @@ console.log(value)
       try {
         formProps.handle[0](temp);
       } catch (error) {
-        console.log("object");
+        consoleLog("object");
         fireError(error);
       }
     }
@@ -288,11 +288,11 @@ console.log(value)
               const array = get(index, x.dataKey.split(".")[0]);
               if (array.length > 0) {
                 //llave del objeto
-                console.log("bodyArray");
+                consoleLog("bodyArray");
                 const objectKey = Object.keys(array[0]);
-                console.log(objectKey);
+                consoleLog(objectKey);
                 //Obtengo el segundo item del arreglo para mostrarlo en la cadena
-                // console.log(get(rowData, item.field).map((i) =>  Object.keys(i).length === 1 ? i[objectKey][Object.keys(i[objectKey])[1]] : i[Object.keys(i)[1]]).toString())
+                // consoleLog(get(rowData, item.field).map((i) =>  Object.keys(i).length === 1 ? i[objectKey][Object.keys(i[objectKey])[1]] : i[Object.keys(i)[1]]).toString())
                 temp.push(
                   array
                     .map((i) =>
@@ -310,7 +310,7 @@ console.log(value)
           arr.push(temp);
           temp = [];
         });
-        console.log(arr);
+        consoleLog(arr);
         doc.autoTableSetDefaults(
           {
             headStyles: { fillColor: "#ed2939" }, // Purple
@@ -354,11 +354,11 @@ console.log(value)
             const array = get(v, col.dataKey.split(".")[0]);
             if (array.length > 0) {
               //llave del objeto
-              console.log("bodyArray");
+              consoleLog("bodyArray");
               const objectKey = Object.keys(array[0]);
-              console.log(objectKey);
+              consoleLog(objectKey);
               //Obtengo el segundo item del arreglo para mostrarlo en la cadena
-              // console.log(get(rowData, item.field).map((i) =>  Object.keys(i).length === 1 ? i[objectKey][Object.keys(i[objectKey])[1]] : i[Object.keys(i)[1]]).toString())
+              // consoleLog(get(rowData, item.field).map((i) =>  Object.keys(i).length === 1 ? i[objectKey][Object.keys(i[objectKey])[1]] : i[Object.keys(i)[1]]).toString())
               obj[col.title] = array
                 .map((i) =>
                   Object.keys(i).length === 1
@@ -634,8 +634,8 @@ console.log(value)
           setEditDialog(false);
         }}
       >
-        {console.log(formProps)}
-        {console.log(element, "element")}
+        {consoleLog(formProps)}
+        {consoleLog(element, "element")}
         <Form
           data={formData}
           schema={formProps?.schema}

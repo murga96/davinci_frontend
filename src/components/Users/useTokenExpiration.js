@@ -1,5 +1,6 @@
 import moment from "moment";
 import { useEffect, useRef, useState } from "react";
+import { consoleLog } from "../utils";
 
 export function useTokenExpiration(onTokenRefreshRequired) {
   const timeoutRef = useRef();
@@ -8,10 +9,10 @@ export function useTokenExpiration(onTokenRefreshRequired) {
   useEffect(() => {
     // get a new access token with the refresh token when it expires
     if (tokenExpiration) {
-      console.log(tokenExpiration, "entro")
+      consoleLog(tokenExpiration, "entro")
       const now = new Date();
       timeoutRef.current = window.setInterval(async () => {
-        console.log("timer")
+        consoleLog("timer")
         onTokenRefreshRequired();
       }, tokenExpiration * 1000);
     }

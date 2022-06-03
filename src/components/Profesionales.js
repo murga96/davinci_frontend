@@ -4,32 +4,46 @@ import * as yup from "yup";
 import { ProgressSpinner } from "primereact/progressspinner";
 import { Table } from "./ui/Table";
 import axios from "axios";
+import { consoleLog } from "./utils";
 
 export const Profesionales = () => {
   const [profesionales, setProfesionales] = useState(null);
 
+  const [name, setName] = useState("my-upload")
+  
   useEffect(() => {
     cargarDatos();
   }, []);
   const cargarDatos = () => {
     axios
-      .get("profesionales")
-      .then((resp) => {
-        if (resp) {
-          console.log(resp.data);
-          setProfesionales(resp.data);
-        }
-      })
-      .catch((error) => console.log(error.message));
+    .get("profesionales")
+    .then((resp) => {
+      if (resp) {
+        consoleLog(resp.data);
+        setProfesionales(resp.data);
+      }
+    })
+    .catch((error) => consoleLog(error.message));
   };
+
+  const onError = err => {
+    consoleLog("Error", err);
+  };
+  
+  const onSuccess = (res) => {
+    consoleLog("Success", res);
+    setName(res.name)
+
+  };
+
   const modifyElement = (element) => {
-    console.log(element);
+    consoleLog(element);
     axios
       .patch("profesionales", element)
       .then((resp) => {
         cargarDatos();
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => consoleLog(error.message));
   };
   const createElement = (element) => {
     axios
@@ -37,7 +51,7 @@ export const Profesionales = () => {
       .then((resp) => {
         cargarDatos();
       })
-      .catch((error) => console.log(error.toJSON()));
+      .catch((error) => consoleLog(error.toJSON()));
   };
   const deleteElement = (id) => {
     axios
@@ -46,7 +60,7 @@ export const Profesionales = () => {
         cargarDatos();
       })
       .catch((error) => {
-        console.log(error.message);
+        consoleLog(error.message);
       });
   };
   const deleteSeveralElement = (arrayId) => {
@@ -55,7 +69,7 @@ export const Profesionales = () => {
       .then((_) => {
         cargarDatos();
       })
-      .catch((error) => console.log(error.message));
+      .catch((error) => consoleLog(error.message));
   };
   const filters = {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -77,12 +91,15 @@ export const Profesionales = () => {
   //React-hook-form
   const schema = yup.object().shape({
     nombre: yup.string().required("Nombre es requerido"),
-    descripcion: yup.string().required("Descripción es requerido"),
+    descripcion: yup
+      .string()
+      .max(100, "La descripción debe contener menos de 250 carácteres")
+      .required("Descripción es requerido"),
     correo: yup
-    .string()
-    .email("Correo electrónico inválido. Ej: contratos@davinci.com")
-    .required("Correo es requerido")
-    .nullable("Correo es requerido"),
+      .string()
+      .email("Correo electrónico inválido. Ej: contratos@davinci.com")
+      .required("Correo es requerido")
+      .nullable("Correo es requerido"),
     imagen: yup.object(),
   });
   let dataStruct = [
@@ -95,8 +112,25 @@ export const Profesionales = () => {
     },
     {
       id: 1,
+      label: "Imagen:*",
+      component: "IKUpload",
+      name: "imagen",
+      defaultValue: "",
+      props: {
+        fileName: "my-upload",
+        publicKey:"public_PP+4MOwvDLetX4MDEzb+0thdVG0=",
+        urlEndpoint:"https://ik.imagekit.io/u7qql60ut",
+        authenticationEndpoint:"http://localhost:3001/imagekit-io/auth",
+        useUniqueFileName: false,
+        responseFields: ["tags", "customCoordinates"],
+        onError: onError,
+        onSuccess: onSuccess,
+      },
+    },
+    {
+      id: 1,
       label: "Descripción:*",
-      component: "InputText",
+      component: "InputTextArea",
       name: "descripcion",
       defaultValue: "",
     },
