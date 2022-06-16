@@ -14,7 +14,7 @@ import { Servicios } from "./components/Servicios";
 
 
 function App() {
-  //primereact intial config
+  //primereact initial config
   setPrimeReactInitialConfig()
   setAxiosConfig()
   

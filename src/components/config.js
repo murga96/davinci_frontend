@@ -1,8 +1,7 @@
-import axios from 'axios';
-import PrimeReact from 'primereact/api';
+import axios from "axios";
+import PrimeReact from "primereact/api";
 import { addLocale, locale } from "primereact/api";
-import { consoleLog, fireError } from './utils';
-
+import { consoleLog, fireError } from "./utils";
 
 export const setPrimeReactInitialConfig = () => {
   //setting locale
@@ -87,24 +86,44 @@ export const setPrimeReactInitialConfig = () => {
   locale("es");
   //setting ripple effect
   PrimeReact.ripple = true;
-}
+};
 
 export const setAxiosConfig = () => {
-  //setting default configs for axios 
+  //setting default configs for axios
   axios.defaults.baseURL = process.env.REACT_APP_URL_API;
-  axios.interceptors.response.use((response) => (response), ({response: errorResponse}) => {
-    const serverResponse = errorResponse?.data
-    if(serverResponse){
-      // console.log(serverResponse)
-      let message = serverResponse.message
-      switch (serverResponse.error) {
-        case "QueryFailedError":
-          if(serverResponse.message.includes("UNIQUE"))
-            message = `${serverResponse.message.split("(")[1].replace(").","")} existe y no puede ser duplicado.`
-          break;
+  axios.interceptors.response.use(
+    (response) => response,
+    ({ response: errorResponse }) => {
+      const serverResponse = errorResponse?.data;
+      if (serverResponse) {
+        // console.log(serverResponse)
+        let message = serverResponse.message;
+        switch (serverResponse.error) {
+          case "QueryFailedError": {
+            if (serverResponse.message.includes("UNIQUE"))
+              message = `${serverResponse.message
+                .split("(")[1]
+                .replace(").", "")} existe y no puede ser duplicado.`;
+            break;
+          }
+          case "HttpException": {
+            if (serverResponse.message.includes("unique_")) {
+              message = `Existen valores a añadir que se encuentran en el sistema y no puede ser duplicados.`;
+            }
+            break;
+          }
+          case "NotFoundException":
+            message = `La dirección ${
+              serverResponse.message.split("ENOTFOUND ")[1]
+            } no se puede encontrar. Revise su conexión a internet.`;
+            break;
+          case "RequestTimeoutException":
+            message = `Tiempo de espera agotado. Revise su conexión a internet.`;
+            break;
+        }
+        console.log(serverResponse);
+        fireError(message);
       }
-      fireError(message)
-    } 
-    
-  })
-}
+    }
+  );
+};

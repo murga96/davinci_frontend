@@ -8,46 +8,59 @@ import { consoleLog } from "./utils";
 
 export const Profesionales = () => {
   const [profesionales, setProfesionales] = useState(null);
+  const [file, setFile] = useState(null);
 
-  const [name, setName] = useState("my-upload")
-  
   useEffect(() => {
     cargarDatos();
   }, []);
   const cargarDatos = () => {
     axios
-    .get("profesionales")
-    .then((resp) => {
-      if (resp) {
-        console.log(resp.data);
-        setProfesionales(resp.data);
-      }
-    })
-    .catch((error) => console.log(error.message));
-  };
-
-  const onError = err => {
-    console.log("Error", err);
-  };
-  
-  const onSuccess = (res) => {
-    console.log("Success", res);
-    setName(res.name)
-
+      .get("profesionales")
+      .then((resp) => {
+        if (resp) {
+          console.log(resp.data);
+          setProfesionales(resp.data);
+        }
+      })
+      .catch((error) => console.log(error.message));
   };
 
   const modifyElement = (element) => {
     console.log(element);
+    const formData = new FormData();
+    formData.append("idProfesional", element.idProfesional);
+    formData.append("nombre", element.nombre);
+    formData.append("imagen", file);
+    formData.append("descripcion", element.descripcion);
+    formData.append("cargo", element.cargo);
+    formData.append("correo", element.correo);
+    console.log(formData.get("idProfesional"));
     axios
-      .patch("profesionales", element)
+      .patch("profesionales", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((resp) => {
         cargarDatos();
       })
       .catch((error) => console.log(error.message));
   };
   const createElement = (element) => {
+    console.log(element);
+    element.imagen = file;
+    const formData = new FormData();
+    formData.append("nombre", element.nombre);
+    formData.append("imagen", element.imagen);
+    formData.append("descripcion", element.descripcion);
+    formData.append("cargo", element.cargo);
+    formData.append("correo", element.correo);
     axios
-      .post("profesionales", element)
+      .post("profesionales", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
       .then((resp) => {
         cargarDatos();
       })
@@ -71,6 +84,22 @@ export const Profesionales = () => {
       })
       .catch((error) => console.log(error.message));
   };
+  //Template
+  const imageBodyTemplate = (rowData) => {
+    return (
+      <img
+        src={`${rowData.imagen}`}
+        alt={rowData.image}
+        className="product-image"
+        style={{
+          width: "80px",
+          "box-shadow":
+            "0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)",
+        }}
+      />
+    );
+  };
+
   const filters = {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     nombre: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -78,8 +107,10 @@ export const Profesionales = () => {
     correo: { value: null, matchMode: FilterMatchMode.CONTAINS },
     cargo: { value: null, matchMode: FilterMatchMode.CONTAINS },
   };
+
   let c = [
     { field: "nombre", header: "Nombre" },
+    { field: "imagen", header: "Imagen", body: imageBodyTemplate, noFilter: true },
     { field: "descripcion", header: "Descripción" },
     { field: "correo", header: "Correo" },
     { field: "cargo", header: "Cargo" },
@@ -100,7 +131,7 @@ export const Profesionales = () => {
       .email("Correo electrónico inválido. Ej: contratos@davinci.com")
       .required("Correo es requerido")
       .nullable("Correo es requerido"),
-    imagen: yup.object(),
+    imagen: yup.object().nullable("Debe seleccionar una imagen"),
   });
   let dataStruct = [
     {
@@ -113,18 +144,17 @@ export const Profesionales = () => {
     {
       id: 1,
       label: "Imagen:*",
-      component: "IKUpload",
+      component: "FileUpload",
       name: "imagen",
       defaultValue: "",
       props: {
-        fileName: "my-upload",
-        publicKey:"public_PP+4MOwvDLetX4MDEzb+0thdVG0=",
-        urlEndpoint:"https://ik.imagekit.io/u7qql60ut",
-        authenticationEndpoint:"http://localhost:3001/imagekit-io/auth",
-        useUniqueFileName: false,
-        responseFields: ["tags", "customCoordinates"],
-        onError: onError,
-        onSuccess: onSuccess,
+        accept: "image/*",
+        customUpload: true,
+        onSelect: (e) => {
+          console.log(e.files[0]);
+          setFile(e.files[0]);
+        },
+        uploadOptions: { className: "hidden" },
       },
     },
     {

@@ -17,7 +17,6 @@ import { MultiSelect } from "primereact/multiselect";
 import { FilterService } from "primereact/api";
 import { consoleLog, fireError } from "../utils";
 
-
 export const Table = ({
   value,
   header,
@@ -65,9 +64,7 @@ export const Table = ({
         ></i>
       );
     } else if (item.column.props.dataType === "date") {
-      return moment(get(rowData, item.field)).format(
-        "DD/MM/YYYY"
-      );
+      return moment(get(rowData, item.field)).format("DD/MM/YYYY");
     } else if (
       havePoint &&
       Array.isArray(get(rowData, item.field.split(".")[0]))
@@ -120,7 +117,7 @@ export const Table = ({
         sortable={
           fieldSort === null ? false : true
         } /*  style={{flex: 1,justifyContent: "center"}} */
-        body={bodyChecker}
+        body={col.body ? col.body : bodyChecker}
         dataType={datatypeChecker(col, i)}
         filterField={col.filterField && col.filterField}
         filterElement={
@@ -128,14 +125,18 @@ export const Table = ({
             ? (options) =>
                 React.cloneElement(<col.filterElement options={options} />, {
                   onChange: (e) =>
-                    dt.current.filter(e.value, col.filterField, col.filterMatchModeOptions[0].value),
+                    dt.current.filter(
+                      e.value,
+                      col.filterField,
+                      col.filterMatchModeOptions[0].value
+                    ),
                 })
             : col.filterElement1
             ? col.filterElement1
             : undefined
         }
         filterMatchModeOptions={col.filterMatchModeOptions}
-        filter={filterDplay === null ? false : true}
+        filter={!col.noFilter ? filterDplay === null ? false : true : col.noFilter}
         filterHeaderClassName="w-max"
       />
     );
@@ -299,12 +300,12 @@ export const Table = ({
             headStyles: { fillColor: "#ed2939" }, // Purple
           },
           doc
-        )
+        );
         doc.autoTable({
           head: [exportColumns.map((i) => i.title)],
           startY: doc.autoTable() + 50,
           margin: { horizontal: 10 },
-          styles: { overflow: "linebreak"},
+          styles: { overflow: "linebreak" },
           bodyStyles: { valign: "top" },
           theme: "striped",
           showHead: "everyPage",
@@ -314,10 +315,28 @@ export const Table = ({
             doc.setFontSize(16);
             doc.setTextColor(20);
             doc.text("Listado de " + header, data.settings.margin.left, 15);
-            doc.addImage(logo, 'PNG', doc.internal.pageSize.getWidth() - 20, 7, 10, 10,"", "SLOW")
+            doc.addImage(
+              logo,
+              "PNG",
+              doc.internal.pageSize.getWidth() - 20,
+              7,
+              10,
+              10,
+              "",
+              "SLOW"
+            );
             var pageSize = doc.internal.pageSize;
             var pageHeight = pageSize.getHeight();
-            doc.addImage(pie, 'PNG', 0, pageHeight - 25,pageSize.getWidth(), 25, "", "SLOW");
+            doc.addImage(
+              pie,
+              "PNG",
+              0,
+              pageHeight - 25,
+              pageSize.getWidth(),
+              25,
+              "",
+              "SLOW"
+            );
           },
         });
 
@@ -409,28 +428,32 @@ export const Table = ({
   const leftToolbarTemplate = () => {
     if (edit)
       return (
-        <div>
-          <Button
-            label="Nuevo"
-            icon="pi pi-plus"
-            className="p-button-success mr-2"
-            onClick={() => {
-              if (!editLinks) {
-                setElement(emptyElement);
-                changeValuesFormData(emptyElement, false);
-                setEditDialog(true);
-              } else {
-                navigate(editLinks[0]);
-              }
-            }}
-          />
-          <Button
-            label="Eliminar"
-            icon="pi pi-trash"
-            className="p-button-danger"
-            onClick={confirmDeleteSelected}
-            disabled={!selectedElement || !selectedElement.length}
-          />
+        <div class="grid w-9rem sm:w-auto">
+          <div class="col-12 md:col-6">
+            <Button
+              label="Nuevo"
+              icon="pi pi-plus"
+              className="p-button-success w-8rem"
+              onClick={() => {
+                if (!editLinks) {
+                  setElement(emptyElement);
+                  changeValuesFormData(emptyElement, false);
+                  setEditDialog(true);
+                } else {
+                  navigate(editLinks[0]);
+                }
+              }}
+            />
+          </div>
+          <div class="col-12 md:col-6">
+            <Button
+              label="Eliminar"
+              icon="pi pi-trash"
+              className="p-button-danger w-8rem"
+              onClick={confirmDeleteSelected}
+              disabled={!selectedElement || !selectedElement.length}
+            />
+          </div>
         </div>
       );
     else return undefined;
@@ -439,28 +462,33 @@ export const Table = ({
   const rightToolbarTemplate = () => {
     if (exportData)
       return (
-        <div className="p-d-flex p-ai-center export-buttons">
-          <Button
-            type="button"
-            icon="pi pi-file"
-            onClick={() => dt.current.exportCSV()}
-            className="mr-2"
-            data-pr-tooltip="CSV"
-          />
-          <Button
-            type="button"
-            icon="pi pi-file-excel"
-            onClick={exportExcel}
-            className="p-button-success mr-2"
-            data-pr-tooltip="XLS"
-          />
-          <Button
-            type="button"
-            icon="pi pi-file-pdf"
-            onClick={exportPdf}
-            className="p-button-warning p-mr-2"
-            data-pr-tooltip="PDF"
-          />
+        <div className="export-buttons grid w-7rem sm:w-auto">
+          <div className="col-6 sm:col-4 md:col-4">
+            <Button
+              type="button"
+              icon="pi pi-file"
+              onClick={() => dt.current.exportCSV()}
+              data-pr-tooltip="CSV"
+            />
+          </div>
+          <div className="col-6 sm:col-8 md:col-4">
+            <Button
+              type="button"
+              icon="pi pi-file-excel"
+              onClick={exportExcel}
+              className="p-button-success"
+              data-pr-tooltip="XLS"
+            />
+          </div>
+          <div className="col-6 md:col-4">
+            <Button
+              type="button"
+              icon="pi pi-file-pdf"
+              onClick={exportPdf}
+              className="p-button-warning"
+              data-pr-tooltip="PDF"
+            />
+          </div>
           {/* <Button type="button" icon="pi pi-filter" onClick={() => exportCSV(true)} className="p-button-info ml-auto" data-pr-tooltip="Selection Only" /> */}
         </div>
       );

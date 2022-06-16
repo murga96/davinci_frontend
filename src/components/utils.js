@@ -20,7 +20,7 @@ export const fireError = ( message) => {
 }
 export const fireInfo = ( message) => {
     MySwal.fire({
-        icon: "Information",
+        icon: "success",
         title: "Información",
         text: message,
         background: "var(--surface-b)",

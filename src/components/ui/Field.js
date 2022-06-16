@@ -14,7 +14,7 @@ import { classNames } from "primereact/utils";
 import "./Field.css";
 import { Password } from "primereact/password";
 import moment from "moment";
-import { IKUpload } from "imagekitio-react";
+import { FileUpload } from "primereact/fileupload";
 
 export const Field = ({ type, name, defaultValue, props, label }) => {
   const {
@@ -143,9 +143,9 @@ export const Field = ({ type, name, defaultValue, props, label }) => {
             {label}
           </label>
           <Controller
-             name={name}
-             defaultValue={defaultValue}
-             control={control}
+            name={name}
+            defaultValue={defaultValue}
+            control={control}
             render={({ field, fieldState }) => (
               <Password
                 id={field.name}
@@ -167,7 +167,7 @@ export const Field = ({ type, name, defaultValue, props, label }) => {
           />
           {getFormErrorMessage(name)}
         </div>
-      )
+      );
     case "InputTextArea":
       return (
         <div>
@@ -293,8 +293,8 @@ export const Field = ({ type, name, defaultValue, props, label }) => {
             defaultValue={defaultValue}
             control={control}
             render={({ field, fieldState }) => {
-              if(!moment.isDate(field.value)){
-                field.value = moment(field.value).toDate()
+              if (!moment.isDate(field.value)) {
+                field.value = moment(field.value).toDate();
               }
               return (
                 <Calendar
@@ -390,7 +390,7 @@ export const Field = ({ type, name, defaultValue, props, label }) => {
           {getFormErrorMessage(name)}
         </div>
       );
-    case "IKUpload":
+    case "FileUpload":
       return (
         <div>
           <label
@@ -408,12 +408,11 @@ export const Field = ({ type, name, defaultValue, props, label }) => {
             control={control}
             render={({ field, fieldState }) => {
               return (
-                <IKUpload
+                <FileUpload
                   {...props}
                   {...field}
-                  // value={field.value}
-                  // onChange={(e) => field.onChange(e.target.value)}
                   id={field.name}
+                  value={field.value}
                   className={classNames(
                     { "p-invalid": fieldState.invalid },
                     "w-full mb-2",
