@@ -151,7 +151,6 @@ export const Profesionales = () => {
         accept: "image/*",
         customUpload: true,
         onSelect: (e) => {
-          console.log(e.files[0]);
           setFile(e.files[0]);
         },
         uploadOptions: { className: "hidden" },

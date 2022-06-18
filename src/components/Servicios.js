@@ -10,6 +10,7 @@ import { consoleLog } from "./utils";
 export const Servicios = () => {
   const [servicios, setServicios] = useState(null);
   const [subservicios, setSubservicios] = useState(null);
+  const [file, setFile] = useState(null);
 
   useEffect(() => {
     cargarDatos();
@@ -40,16 +41,37 @@ export const Servicios = () => {
   };
   const modifyElement = (element) => {
     console.log(element);
+    const formData = new FormData();
+    formData.append("idServicio", element.idServicio);
+    formData.append("descripcionBreve", element.descripcionBreve);
+    formData.append("imagen", file);
+    formData.append("descripcion", element.descripcion);
+    formData.append("nombre", element.nombre);
+    formData.append("subservicios", JSON.stringify(element.subservicios));
     axios
-      .patch("servicios", element)
+      .patch("servicios", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      })
       .then((resp) => {
         cargarDatos();
       })
       .catch((error) => console.log(error.message));
   };
   const createElement = (element) => {
+    const formData = new FormData();
+    formData.append("nombre", element.nombre);
+    formData.append("imagen", file);
+    formData.append("descripcion", element.descripcion);
+    formData.append("descripcionBreve", element.descripcionBreve);
+    formData.append("subservicios", JSON.stringify(element.subservicios));
     axios
-      .post("servicios", element)
+      .post("servicios", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        }
+      })
       .then((resp) => {
         cargarDatos();
       })
@@ -99,6 +121,22 @@ export const Servicios = () => {
       />
     );
   };
+
+  //Template
+  const imageBodyTemplate = (rowData) => {
+    return (
+      <img
+        src={`${rowData.imagen}`}
+        alt={rowData.image}
+        style={{
+          width: "80px",
+          "box-shadow":
+            "0 3px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23)",
+        }}
+      />
+    );
+  };
+
   const filters = {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     nombre: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -108,6 +146,7 @@ export const Servicios = () => {
   };
   let c = [
     { field: "nombre", header: "Nombre" },
+    { field: "imagen", header: "Imagen", body: imageBodyTemplate, noFilter: true },
     { field: "descripcionBreve", header: "Descripción breve" },
     { field: "descripcion", header: "Descripción" },
     {
@@ -133,6 +172,7 @@ export const Servicios = () => {
     descripcionBreve: yup.string().max(100, "La descripción breve debe contener menos de 100 carácteres").required("Descripción breve es requerido"),
     descripcion: yup.string().max(250, "La descripción debe contener menos de 250 carácteres").required("Descripción es requerido"),
     subservicios: yup.array().min(1, "Seleccione al menos un subservicio").typeError("Subservicios es requerido"),
+    imagen: yup.object().nullable("Debe seleccionar una imagen"),
   });
   let dataStruct = [
     {
@@ -141,6 +181,21 @@ export const Servicios = () => {
       component: "InputText",
       name: "nombre",
       defaultValue: "",
+    },
+    {
+      id: 1,
+      label: "Imagen:*",
+      component: "FileUpload",
+      name: "imagen",
+      defaultValue: "",
+      props: {
+        accept: "image/*",
+        customUpload: true,
+        onSelect: (e) => {
+          setFile(e.files[0]);
+        },
+        uploadOptions: { className: "hidden" },
+      },
     },
     {
       id: 2,
