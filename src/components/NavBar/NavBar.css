@@ -36,3 +36,7 @@
 .p-menubar-button:hover {
     color: var(--primary-color-hover) !important;
 }
+.home-navbar {
+    background-color: rgba(0, 0, 0, 0.1) !important;
+    border-radius: 0px;
+}

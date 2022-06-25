@@ -12,7 +12,7 @@ import "./NavBar.css";
 // import { havePermissionNavBar } from "../../Users/ProtectedRoute";
 import { has } from "lodash";
 
-export const Navbar = () => {
+export const Navbar = ({homeNavBar}) => {
   const navigate = useNavigate();
   const menuUserRef = useRef(null);
   const user = "Gustavo"
@@ -204,7 +204,7 @@ export const Navbar = () => {
 
   return (
     <Menubar
-      className="mb-2 border-none"
+      className={`border-none ${homeNavBar ? "home-navbar" : ""}`}
       break
       style={{ backgroundColor: "transparent" }}
       model={MenuModel}

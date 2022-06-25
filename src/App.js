@@ -5,12 +5,13 @@ import "primeflex/primeflex.css";
 import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import { ConfiguracionComponent } from "./components/ConfiguracionComponent";
-import { Home } from "./components/Home";
 import { Users } from "./components/Users/User";
 import { Subservicios } from "./components/Subservicios";
 import { setAxiosConfig, setPrimeReactInitialConfig } from "./components/config";
 import { Profesionales } from "./components/Profesionales";
 import { Servicios } from "./components/Servicios";
+import { OutletNavbar } from "./components/NavBar/OutletNavbar";
+import { Home } from "./components/Home";
 
 
 function App() {
@@ -22,7 +23,8 @@ function App() {
     <div className="App">
       <Router>
         <Routes>
-        <Route path="/" element={<Home/>} >
+        <Route path="/home" element={<Home/>} />
+        <Route path="/" element={<OutletNavbar/>} >
           <Route path="/configuracion" element={<ConfiguracionComponent/>} />
           <Route path="/usuarios" element={<Users/>} />
           <Route path="/servicios" element={<Servicios/>} />
