@@ -1,11 +1,9 @@
 import React from "react";
 import HeroSlider, { Slide, Nav, OverlayContainer } from "hero-slider";
 import Wrapper from "../UI/Wrapper/Wrapper";
-import Title from "../UI/Title/Title";
-import Subtitle from "../UI/Subtitle/Subtitle";
 import { Navbar } from "../../NavBar/Navbar";
 import car3 from "./../../../assets/images/car3.jpg";
-import car2 from "./../../../assets/images/car2.jpg";
+// import car2 from "./../../../assets/images/car2.jpg";
 import car4 from "./../../../assets/images/car4.jpg";
 import { Button } from "primereact/button";
 
@@ -53,7 +51,6 @@ const BasicSlider = () => {
         }}
       />
 
-      <Nav />
     </HeroSlider>
   );
 };
