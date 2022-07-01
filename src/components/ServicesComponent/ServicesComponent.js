@@ -26,12 +26,12 @@ export const Services = () => {
     {
       breakpoint: "1100px",
       numVisible: 3,
-      numScroll: 3,
+      numScroll: 1,
     },
     {
       breakpoint: "920px",
       numVisible: 2,
-      numScroll: 2,
+      numScroll: 1,
     },
     {
       breakpoint: "480px",
@@ -51,7 +51,7 @@ export const Services = () => {
     );
     const footer = (
       <div className="flex justify-content-end align-items-end">
-        <Button className="p-button-sm" label="Ver más"/>
+        <Button className="p-button-sm bg-orange-500 border-transparent hover:bg-orange-600" label="Ver más"/>
       </div>
     );
     return (
@@ -71,7 +71,7 @@ export const Services = () => {
   };
 
   return (
-    <div className="w-screen h-screen bg-orange-400 flex justify-content-center align-items-center">
+    <div className="w-screen h-screen bg-green-200 flex justify-content-center align-items-center">
       {!services && (
         <div className="flex h-30rem justify-content-center align-items-center">
           <ProgressSpinner strokeWidth="3" />
@@ -81,8 +81,14 @@ export const Services = () => {
         <Carousel
           className="w-full md:w-9 mx-8"
           header={
-            <div className="mb-6 flex justify-content-center text-4xl sm:text-5xl md:text-7xl text-white-alpha-90 car-title">
+            <div>
+            <div className="mb-2 flex justify-content-center text-lg sm:text-xl md:text-2xl text-white car-title">
+              Conoce nuestros
+            </div>
+            <div className="mb-6 flex justify-content-center text-4xl sm:text-5xl md:text-7xl text-teal-700 car-title">
               Servicios
+            </div>
+
             </div>
           }
           value={services}
@@ -90,7 +96,7 @@ export const Services = () => {
           numScroll={1}
           responsiveOptions={responsiveOptions}
           circular
-          autoplayInterval={3000}
+          autoplayInterval={6000}
           itemTemplate={servicesTemplate}
         />
       )}

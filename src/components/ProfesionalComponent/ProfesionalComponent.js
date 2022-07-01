@@ -10,80 +10,90 @@ import { Chip } from "primereact/chip";
 import { Tag } from "primereact/tag";
 import { Avatar } from "primereact/avatar";
 import "./profesionalComponent.css";
+import { useNavigate } from "react-router-dom";
 
 export const Profesionals = () => {
   const [profesionals, setProfesionals] = useState(null);
+  const navigate = useNavigate()
+
+  const responsiveOptions = [
+    {
+      breakpoint: "1100px",
+      numVisible: 3,
+      numScroll: 1,
+    },
+    {
+      breakpoint: "920px",
+      numVisible: 2,
+      numScroll: 1,
+    },
+    {
+      breakpoint: "480px",
+      numVisible: 1,
+      numScroll: 1,
+    },
+  ];
 
   useEffect(() => {
     axios.get("profesionales").then((resp) => {
       if (resp) setProfesionals(resp.data);
     });
+    window.screen.addEventListener("orientationchange", function () {
+      console.log(
+        "The orientation of the screen is: " + window.screen.orientation
+      );
+    });
   }, []);
 
   const profesionalsTemplate = (profesionals) => {
-    const footer = (
-      <div className="flex justify-content-end align-items-end">
-        <Button className="p-button-sm" label="Ver más" />
-      </div>
-    );
     return (
-      <div className="container flex justify-content-center w-9">
-        <div className="flex flex-column">
-          <div className="image-div flex justify-content-center">
-            <Avatar
-              image={profesionals?.imagen}
-              // className="mr-2"
-              size="xlarge"
-              shape="circle"
-            />
-            {/* <Image
-              imageClassName="w-12 h-12rem"
-              className="flex justify-content-center"
-              alt="profesionals?.nombre"
-              src={profesionals?.imagen}
-            /> */}
-          </div>
-          <div className="flex flex-column">
-            <Chip
-              label={profesionals?.nombre}
-              className="mt-3 mb-3 bg-gray-400"
-            />
-            <Chip
-              label={profesionals?.correo}
-              icon="pi pi-envelope"
-              className="mb-3 bg-gray-500"
-            />
-            {profesionals.cargo && (
-              <Tag rounded value={profesionals?.cargo} severity="success" className="mb-3" />
-            )}
-          </div>
+      <div className="flex flex-column align-items-center mx-8 my-3 cursor-pointer" onClick={() => navigate(`/../Profesional/Detalle/${profesionals.idProfesional}`)}>
+        <Image
+          imageClassName="w-7rem h-7rem sm:w-9rem sm:h-9rem md:w-11rem md:h-11rem profesional-image border-circle"
+          className="flex justify-content-center"
+          alt="profesionals?.nombre"
+          src={profesionals?.imagen}
+        />
+        <div className="mt-3 text-xl md:text-2xl lg:3xl text-gray-800">
+          {profesionals?.nombre}
         </div>
-        <div className="m-3 w-12rem h-18rem">
-          <p
-            className={`${
-              profesionals?.nombre.length > 17 ? "h-3rem" : "h-4rem"
-            } service-desc text-gray-900 overflow-auto`}
-            style={{ wordWrap: "break-word" }}
-          >
-            {profesionals?.descripcion}
-          </p>
-        </div>
+        <Tag
+          rounded
+          value={profesionals?.cargo}
+          className="mt-3 bg-orange-400 text-white text-xs sm:text-sm"
+        />
       </div>
     );
   };
 
   return (
-    <div className="w-screen bg-gray-500 flex justify-content-center align-items-center p-4 pt-8">
+    <div className="w-screen h-screen flex justify-content-center align-items-center">
       {!profesionals && (
         <div className="flex h-30rem justify-content-center align-items-center">
           <ProgressSpinner strokeWidth="3" />
         </div>
       )}
-      <div className="container flex flex-column mt-8 w-full">
-        {profesionals &&
-          profesionals.length > 0 &&
-          profesionals.map((p) => profesionalsTemplate(p))}
-      </div>
+      {profesionals && (
+        <Carousel
+          className="w-full md:w-11 mx-8"
+          containerClassName="profesional-car"
+          indicatorsContentClassName="profesional-car"
+          header={
+            <div>
+              <div className="mb-8 flex justify-content-center text-4xl sm:text-5xl md:text-7xl text-orange-700">
+                Nuestro equipo
+              </div>
+            </div>
+          }
+          value={profesionals}
+          numVisible={3}
+          numScroll={1}
+          responsiveOptions={responsiveOptions}
+          circular
+          // autoplayInterval={6000}
+          itemTemplate={profesionalsTemplate}
+        />
+      )}
     </div>
   );
 };

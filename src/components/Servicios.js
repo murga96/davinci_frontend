@@ -5,7 +5,8 @@ import { ProgressSpinner } from "primereact/progressspinner";
 import { Table } from "./ui/Table";
 import axios from "axios";
 import { MultiSelect } from "primereact/multiselect";
-import { consoleLog } from "./utils";
+import { DataTable } from "primereact/datatable";
+import { Column } from "primereact/column";
 
 export const Servicios = () => {
   const [servicios, setServicios] = useState(null);

@@ -12,6 +12,7 @@ import { Profesionales } from "./components/Profesionales";
 import { Servicios } from "./components/Servicios";
 import { OutletNavbar } from "./components/NavBar/OutletNavbar";
 import { Home } from "./components/Home";
+import { ProfesionalDetailComponent } from "./components/ProfesionalComponent/ProfesionalDetailComponent";
 
 
 function App() {
@@ -24,6 +25,7 @@ function App() {
       <Router>
         <Routes>
         <Route path="/home" element={<Home/>} />
+        <Route path="/Profesional/Detalle/:idProfesional" element={<ProfesionalDetailComponent/>} />
         <Route path="/" element={<OutletNavbar/>} >
           <Route path="/configuracion" element={<ConfiguracionComponent/>} />
           <Route path="/usuarios" element={<Users/>} />

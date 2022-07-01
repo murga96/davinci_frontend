@@ -31,6 +31,8 @@ export const Table = ({
   filterDplay,
   filtersValues,
   edit,
+  expand=false,
+  expandTemplate,
   exportData,
   removeOne,
   removeSeveral,
@@ -41,6 +43,7 @@ export const Table = ({
 }) => {
   const dt = useRef(null);
   const navigate = useNavigate();
+  const [expandedRows, setExpandedRows] = useState(null);
   const [selectedElement, setSelectedElement] = useState(null);
   const [element, setElement] = useState({});
   const [editDialog, setEditDialog] = useState(false);
@@ -564,9 +567,15 @@ export const Table = ({
         sortOrder={orderSort}
         filterDisplay={filterDplay}
         filters={filtersValues}
+        expandedRows={expand ?  expandedRows : undefined}
+        onRowToggle={expand ?  (e) => setExpandedRows(e.data) : undefined}
+        rowExpansionTemplate={expand ?  expandTemplate : undefined}
       >
-        {selectionType === "multiple" ? (
+        {(selectionType === "multiple" && !expand) ? (
           <Column selectionMode="multiple" exportable={false} />
+        ) : undefined}
+        {expand ? (
+          <Column expander style={{width: '3rem'}} exportable={false} />
         ) : undefined}
         {dynamicColumns}
         {edit || additionalButtons ? (
