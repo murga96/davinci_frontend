@@ -61,6 +61,41 @@ export const Field = ({ type, name, defaultValue, props, label }) => {
           {getFormErrorMessage(name)}
         </div>
       );
+      case "InputTextLeftIcon":
+        return (
+          <div>
+            <label
+              htmlFor={name}
+              className={classNames(
+                { "p-error": errors.email },
+                "block text-900 font-medium mb-2"
+              )}
+            >
+              {label}
+            </label>
+            <Controller
+              name={name}
+              defaultValue={defaultValue}
+              control={control}
+              render={({ field, fieldState }) => (
+                <span className="p-input-icon-left">
+                  <i className={props?.icon} />
+                  <InputText
+                    id={field.name}
+                    {...field}
+                    {...props}
+                    className={classNames(
+                      { "p-invalid": fieldState.invalid },
+                      "w-full mb-2",
+                      props?.className
+                    )}
+                  />
+                </span>
+              )}
+            />
+            {getFormErrorMessage(name)}
+          </div>
+        );
     case "InputMask":
       return (
         <div>

@@ -1,0 +1,16 @@
+.div-contact {
+    height: 125vh !important;
+    
+}
+.contact {
+    height: 45rem !important;
+    
+}
+@media screen and (min-width: 576px) {
+    .contact {
+        height: 36rem !important
+    }
+    .div-contact {
+        height: 100vh !important;   
+    }
+  }
