@@ -71,7 +71,7 @@ export const Services = () => {
   };
 
   return (
-    <div className="w-screen h-screen bg-green-200 flex justify-content-center align-items-center">
+    <div className="service-background w-screen h-screen  flex justify-content-center align-items-center">
       {!services && (
         <div className="flex h-30rem justify-content-center align-items-center">
           <ProgressSpinner strokeWidth="3" />

@@ -1,3 +1,6 @@
+.service-background {
+  background-image: linear-gradient(to bottom right, var(--teal-200) , var(--teal-600));
+}
 .service-image {
     object-fit: cover;
     height: 6rem;

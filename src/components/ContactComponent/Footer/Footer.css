@@ -1,0 +1,14 @@
+.footer {
+    background-image: linear-gradient(to bottom right, var(--teal-200) , var(--teal-600));
+}
+.div-contact {
+    /* height: 75%; */
+    word-wrap: break-word;
+}
+
+@media screen and (min-width: 576px) {
+    .div-contact {
+        /* height: 100%; */
+        word-wrap: break-word;
+    }
+  }

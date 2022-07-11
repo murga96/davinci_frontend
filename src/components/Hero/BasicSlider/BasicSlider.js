@@ -35,7 +35,7 @@ const BasicSlider = () => {
           <div className="w-full lg:w-9 text-center text-black-alpha-80 text-2xl font-normal">
             Diseño gráfico de papelería empresarial, documentos profesionales, soportes publicitarios, entre otros
           </div>
-          <Button className="mt-6" label="Contáctenos" />
+          <Button className="mt-6 bg-orange-500 text-white hover:bg-orange-600 border-transparent" label="Contáctenos" />
         </Wrapper>
       </OverlayContainer>
       <Slide

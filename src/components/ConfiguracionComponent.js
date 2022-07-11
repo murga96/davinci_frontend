@@ -125,7 +125,7 @@ export const ConfiguracionComponent = () => {
             <html htmlFor="latitud">Latitud</html>
             <InputText
               id="latitud"
-              // className="w-11"
+              className="mt-2"
               keyfilter="num"
               value={latitud}
               onChange={(e) => setLatitud(e.target.value)}
@@ -137,7 +137,7 @@ export const ConfiguracionComponent = () => {
         <span className="p-input-float-label">
             <html htmlFor="latitud">Latitud</html>
             <InputText
-              // className="w-11"
+              className="mt-2"
               keyfilter="num"
               value={longitud}
               onChange={(e) => setLongitud(e.target.value)}
