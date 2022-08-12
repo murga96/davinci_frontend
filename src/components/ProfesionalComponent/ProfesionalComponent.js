@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { ScrollPanel } from "primereact/scrollpanel";
 import { Carousel } from "primereact/carousel";
-import { ProgressSpinner } from "primereact/progressspinner";
 import { Card } from "primereact/card";
 import { Image } from "primereact/image";
 import axios from "axios";
@@ -11,6 +10,7 @@ import { Tag } from "primereact/tag";
 import { Avatar } from "primereact/avatar";
 import "./profesionalComponent.css";
 import { useNavigate } from "react-router-dom";
+import { Loading } from "../ui/LoadingComponent";
 
 export const Profesionals = () => {
   const [profesionals, setProfesionals] = useState(null);
@@ -69,9 +69,7 @@ export const Profesionals = () => {
   return (
     <div className="w-screen h-screen flex justify-content-center align-items-center">
       {!profesionals && (
-        <div className="flex h-30rem justify-content-center align-items-center">
-          <ProgressSpinner strokeWidth="3" />
-        </div>
+        <Loading />
       )}
       {profesionals && (
         <Carousel

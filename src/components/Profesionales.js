@@ -1,10 +1,10 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FilterMatchMode, FilterService } from "primereact/api";
 import * as yup from "yup";
-import { ProgressSpinner } from "primereact/progressspinner";
 import { Table } from "./ui/Table";
 import axios from "axios";
 import { consoleLog } from "./utils";
+import { Loading } from "./ui/LoadingComponent";
 
 export const Profesionales = () => {
   const [profesionales, setProfesionales] = useState(null);
@@ -187,9 +187,7 @@ export const Profesionales = () => {
   return (
     <div>
       {!profesionales && (
-        <div className="flex h-30rem justify-content-center align-items-center">
-          <ProgressSpinner strokeWidth="3" />
-        </div>
+        <Loading />
       )}
       {profesionales ? (
         <div>

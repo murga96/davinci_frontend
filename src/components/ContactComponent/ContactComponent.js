@@ -3,7 +3,7 @@ import { Form } from "../ui/Form";
 import * as yup from 'yup'
 import "./ContactComponent.css"
 import axios from "axios";
-import {fireError, fireInfo} from "./../utils"
+import {fireError, fireInfo} from "../utils"
 
 export const ContactComponent = () => {
   const formRef = useRef(null)

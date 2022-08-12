@@ -1,12 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FilterMatchMode, FilterService } from "primereact/api";
 import * as yup from "yup";
-import { ProgressSpinner } from "primereact/progressspinner";
 import { Table } from "./ui/Table";
 import axios from "axios";
 import { MultiSelect } from "primereact/multiselect";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { Loading } from "./ui/LoadingComponent";
 
 export const Servicios = () => {
   const [servicios, setServicios] = useState(null);
@@ -234,9 +234,7 @@ export const Servicios = () => {
   return (
     <div>
       {!servicios && (
-        <div className="flex h-30rem justify-content-center align-items-center">
-          <ProgressSpinner strokeWidth="3" />
-        </div>
+        <Loading />
       )}
       {servicios ? (
         <div>

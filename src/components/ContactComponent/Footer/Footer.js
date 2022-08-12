@@ -5,8 +5,9 @@ import { loadGoogleMaps, removeGoogleMaps } from "../../utils";
 
 export const Footer = ({ config }) => {
   const [googleMapsReady, setGoogleMapsReady] = useState(false);
-  const [overlays, setOverlays] = useState(false);
+  const [overlays, setOverlays] = useState([]);
 
+  //googlemaps
   useEffect(() => {
     loadGoogleMaps(() => {
       setGoogleMapsReady(true);
@@ -38,11 +39,10 @@ export const Footer = ({ config }) => {
 
   return (
     <div
-      className="footer w-full h-20rem flex justify-content-around align-items-center px-2" /* style={{backgroundColor: "#005F60"}} */
+      className="footer grid p-4" /* style={{backgroundColor: "#005F60"}} */
     >
-      <div className="grid">
           <div
-            className="contact-div col-6 grid w-6 flex flex-row"
+            className="contact-div col-12 sm:col-6 grid"
           >
             <div className="col-12 flex justify-content-center text-orange-500 ">
               <div className="ml-2 w-10 text-lg text-center sm:text-2xl">Información de contacto</div>
@@ -73,7 +73,7 @@ export const Footer = ({ config }) => {
               />
             </div>
           </div>
-          <div className="col-6 grid w-6 ml-2 h-15rem" style={{height: "75%"}}>
+          <div className="col-12 sm:col-6 grid ml-2">
             {/* {googleMapsReady && (
               <GMap
                 overlays={overlays}
@@ -88,6 +88,5 @@ export const Footer = ({ config }) => {
             © 2022 DaVinci Artes Gráficas. Todos los derechos reservados
           </div>
       </div>
-    </div>
   );
 };

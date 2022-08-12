@@ -1,15 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { ScrollPanel } from "primereact/scrollpanel";
 import { Carousel } from "primereact/carousel";
-import { ProgressSpinner } from "primereact/progressspinner";
 import { Card } from "primereact/card";
 import { Image } from "primereact/image";
 import axios from "axios";
 import { Button } from "primereact/button";
 import "./serviceComponent.css";
+import {useNavigate} from 'react-router-dom'
+import { Loading } from "../ui/LoadingComponent";
 
 export const Services = () => {
   const [services, setServices] = useState(null);
+  const navigate = useNavigate()
 
   useEffect(() => {
     axios.get("servicios").then((resp) => {
@@ -51,7 +52,11 @@ export const Services = () => {
     );
     const footer = (
       <div className="flex justify-content-end align-items-end">
-        <Button className="p-button-sm bg-orange-500 border-transparent hover:bg-orange-600" label="Ver más"/>
+        <Button
+          className="p-button-sm bg-orange-500 border-transparent hover:bg-orange-600"
+          label="Ver más"
+          onClick={() => navigate(`../Servicio/${service?.idServicio}`)}
+        />
       </div>
     );
     return (
@@ -62,9 +67,14 @@ export const Services = () => {
           footer={footer}
           subTitle={service?.nombre}
         >
-          <p className={`${service?.nombre.length > 17 ? "h-3rem" : "h-4rem"} service-desc`} style={{wordWrap: "break-word"}}>
-          {service?.descripcionBreve}
-        </p>
+          <p
+            className={`${
+              service?.nombre.length > 17 ? "h-3rem" : "h-4rem"
+            } service-desc`}
+            style={{ wordWrap: "break-word" }}
+          >
+            {service?.descripcionBreve}
+          </p>
         </Card>
       </div>
     );
@@ -73,22 +83,19 @@ export const Services = () => {
   return (
     <div className="service-background w-screen h-screen  flex justify-content-center align-items-center">
       {!services && (
-        <div className="flex h-30rem justify-content-center align-items-center">
-          <ProgressSpinner strokeWidth="3" />
-        </div>
+        <Loading />
       )}
       {services && (
         <Carousel
           className="w-full md:w-9 mx-8"
           header={
             <div>
-            <div className="mb-2 flex justify-content-center text-lg sm:text-xl md:text-2xl text-white car-title">
-              Conoce nuestros
-            </div>
-            <div className="mb-6 flex justify-content-center text-4xl sm:text-5xl md:text-7xl text-teal-700 car-title">
-              Servicios
-            </div>
-
+              <div className="mb-2 flex justify-content-center text-lg sm:text-xl md:text-2xl text-white car-title">
+                Conoce nuestros
+              </div>
+              <div className="mb-6 flex justify-content-center text-4xl sm:text-5xl md:text-7xl text-teal-700 car-title">
+                Servicios
+              </div>
             </div>
           }
           value={services}

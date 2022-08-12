@@ -1,13 +1,13 @@
 import React, { useEffect, useRef, useState } from "react";
 import { FilterMatchMode, FilterService } from "primereact/api";
 import * as yup from "yup";
-import { ProgressSpinner } from "primereact/progressspinner";
 import { Button } from "primereact/button";
 import { MultiSelect } from "primereact/multiselect";
 import { Table } from "../ui/Table";
 import axios from "axios";
 import { confirmDialog } from "primereact/confirmdialog";
 import { consoleLog, fireError, fireInfo } from "../utils";
+import { Loading } from "../ui/LoadingComponent";
 
 export const Users = () => {
   const [users, setUsers] = useState(null);
@@ -158,9 +158,7 @@ export const Users = () => {
   return (
     <div>
       {!users && (
-        <div className="flex h-30rem justify-content-center align-items-center">
-          <ProgressSpinner strokeWidth="3" />
-        </div>
+        <Loading />
       )}
       {users ? (
         <div>

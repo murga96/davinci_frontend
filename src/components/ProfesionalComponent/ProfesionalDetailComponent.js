@@ -3,10 +3,10 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { Navbar } from "../NavBar/Navbar";
 import { Image } from "primereact/image";
-import { ProgressSpinner } from "primereact/progressspinner";
 import { Divider } from "primereact/divider";
 import { ListBox } from "primereact/listbox";
 import "./ProfesionalDetailComponent.css";
+import { Loading } from "../ui/LoadingComponent";
 
 export const ProfesionalDetailComponent = () => {
   const idProfesional = useParams("idProfesional").idProfesional;
@@ -36,9 +36,7 @@ export const ProfesionalDetailComponent = () => {
     <div>
       <Navbar />
       {(!profesional || !profesionales) && (
-        <div className="flex h-30rem justify-content-center align-items-center">
-          <ProgressSpinner strokeWidth="3" />
-        </div>
+        <Loading />
       )}
       {profesional && profesionales && (
         <div className="grid profesionales">
