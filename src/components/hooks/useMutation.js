@@ -17,12 +17,12 @@ export const useMutation = (action, path) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
 
-    const create = async( value) => {
+    const create = async( value, options) => {
         let resp = null
         try {
             setLoading(true)
             setError(false)
-            resp = await API.add(path, value)
+            resp = await API.add(path, value, options)
             setLoading(false)
         }catch(error){
             setError(true)
@@ -30,12 +30,12 @@ export const useMutation = (action, path) => {
         } 
         return resp?.data
     }
-    const modify = async( value) => {
+    const modify = async( value, options) => {
         let resp = null
         try {
             setLoading(true)
             setError(false)
-            resp = await API.edit(path, value)
+            resp = await API.edit(path, value, options)
             setLoading(false)
         }catch(error){
             setError(true)
@@ -43,12 +43,12 @@ export const useMutation = (action, path) => {
         } 
         return resp?.data
     }
-    const remove = async( id) => {
+    const remove = async( id, options) => {
         let resp = null
         try {
             setLoading(true)
             setError(false)
-            resp = await API.delete(path, id)
+            resp = await API.delete(path, id, options)
             setLoading(false)
         }catch(error){
             setError(true)
@@ -56,12 +56,12 @@ export const useMutation = (action, path) => {
         } 
         return resp?.data
     }
-    const bulkRemove = async( ids) => {
+    const bulkRemove = async( ids, options) => {
         let resp = null
         try {
             setLoading(true)
             setError(false)
-            resp = await API.bulkDelete(path, ids)
+            resp = await API.bulkDelete(path, ids, options)
             setLoading(false)
         }catch(error){
             setError(true)

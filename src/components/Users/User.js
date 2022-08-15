@@ -21,7 +21,7 @@ export const Users = () => {
   const [users, setUsers] = useState(null);
   const [fetch, loading, error] = useFetch("usuarios");
   const [create] = useMutation(mutationTypes.CREATE, "usuarios");
-  const [modify] = useMutation(mutationTypes.CREATE, "usuarios");
+  const [modify] = useMutation(mutationTypes.MODIFY, "usuarios");
   const [remove] = useMutation(mutationTypes.REMOVE, "usuarios");
   const [bulkRemove] = useMutation(mutationTypes.BULK_REMOVE, "usuarios");
   const ref = useRef(null);

@@ -15,7 +15,7 @@ export const Subservicios = () => {
   const [subservicios, setSubservicios] = useState(null);
   const [fetch, loading, error] = useFetch("subservicios");
   const [create] = useMutation(mutationTypes.CREATE,"subservicios");
-  const [modify] = useMutation(mutationTypes.CREATE,"subservicios");
+  const [modify] = useMutation(mutationTypes.MODIFY,"subservicios");
   const [remove] = useMutation(mutationTypes.REMOVE,"subservicios");
   const [bulkRemove] = useMutation(mutationTypes.BULK_REMOVE,"subservicios");
   const ref = useRef(null);

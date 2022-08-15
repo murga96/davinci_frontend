@@ -36,7 +36,7 @@ export const columnBodyChecker = (rowData, item) => {
       //llaves del objeto
       const objectKeys = Object.keys(value[0]);
       //Obtengo el segundo item del arreglo para mostrarlo en la cadena
-      return value.map((i) => value[objectKeys[1]]).join(", ");
+      return value.map((item) => item[objectKeys[1]]).join(", ");
     }
   } else {
     //text and object
