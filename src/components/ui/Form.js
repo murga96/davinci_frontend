@@ -5,8 +5,6 @@ import React, { forwardRef, useRef, useImperativeHandle } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import { Field } from "./Field";
 
-
-
 export const Form = forwardRef(({
   data,
   schema,

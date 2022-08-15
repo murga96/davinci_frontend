@@ -5,6 +5,7 @@ import { Table } from "./ui/Table";
 import axios from "axios";
 import { consoleLog } from "./utils";
 import { Loading } from "./ui/LoadingComponent";
+import { useMatch, useResolvedPath } from "react-router-dom";
 
 export const Profesionales = () => {
   const [profesionales, setProfesionales] = useState(null);

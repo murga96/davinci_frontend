@@ -3,7 +3,11 @@ import "primereact/resources/primereact.min.css";
 import "primeicons/primeicons.css";
 import "primeflex/primeflex.css";
 import "./App.css";
-import { BrowserRouter as Router, Link, Outlet, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Route,
+  Routes,
+} from "react-router-dom";
 import { ConfiguracionComponent } from "./components/ConfiguracionComponent";
 import { Users } from "./components/Users/User";
 import { Subservicios } from "./components/Subservicios";
@@ -29,28 +33,26 @@ function App() {
   return (
     <div className="App">
       <StateProvider value={initialState} reducer={reducer}>
-        <ErrorPage>
-          <Router>
-            <Routes>
-              <Route path="/home" element={<Home />} />
+        <Router>
+          <Routes>
+            <Route path="/home" element={<Home />} />
+            <Route
+              path="/Profesional/Detalle/:idProfesional"
+              element={<ProfesionalDetailComponent />}
+            />
+            <Route path="/Servicio/:idServicio" element={<DetailService />} />
+            <Route path="/" element={<OutletNavbar />}>
               <Route
-                path="/Profesional/Detalle/:idProfesional"
-                element={<ProfesionalDetailComponent />}
+                path="/configuracion"
+                element={<ConfiguracionComponent />}
               />
-              <Route path="/Servicio/:idServicio" element={<DetailService />} />
-              <Route path="/" element={<OutletNavbar />}>
-                <Route
-                  path="/configuracion"
-                  element={<ConfiguracionComponent />}
-                />
-                <Route path="/usuarios" element={<Users />} />
-                <Route path="/servicios" element={<Servicios />} />
-                <Route path="/subservicios" element={<Subservicios />} />
-                <Route path="/profesionales" element={<Profesionales />} />
-              </Route>
-            </Routes>
-          </Router>
-        </ErrorPage>
+              <Route path="/usuarios" element={<Users />} />
+              <Route path="/servicios" element={<Servicios />} />
+              <Route path="/subservicios" element={<Subservicios />} />
+              <Route path="/profesionales" element={<Profesionales />} />
+            </Route>
+          </Routes>
+        </Router>
       </StateProvider>
     </div>
   );
