@@ -1,106 +1,70 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { FilterMatchMode, FilterService } from "primereact/api";
 import * as yup from "yup";
 import { Button } from "primereact/button";
 import { MultiSelect } from "primereact/multiselect";
-import { Table } from "../ui/Table";
+import { Table } from "../ui/table/Table";
 import axios from "axios";
 import { confirmDialog } from "primereact/confirmdialog";
 import { consoleLog, fireError, fireInfo } from "../utils";
 import { Loading } from "../ui/LoadingComponent";
+import { useFetch } from "../hooks/useFetch";
+import { mutationTypes, useMutation } from "../hooks/useMutation";
+import { columnBodyChecker } from "../ui/table/Table";
+import { Column } from "primereact/column";
+import { Form } from "../ui/form/Form";
+import { Field } from "../ui/form/Field";
+import { isEmpty } from "lodash";
+import { InputText } from "primereact/inputtext";
 
 export const Users = () => {
   const [users, setUsers] = useState(null);
-  // const [roles, setRoles] = useState(null);
-  // const [roles1, setRoles1] = useState(null);
+  const [fetch, loading, error] = useFetch("usuarios");
+  const [create] = useMutation(mutationTypes.CREATE, "usuarios");
+  const [modify] = useMutation(mutationTypes.CREATE, "usuarios");
+  const [remove] = useMutation(mutationTypes.REMOVE, "usuarios");
+  const [bulkRemove] = useMutation(mutationTypes.BULK_REMOVE, "usuarios");
+  const ref = useRef(null);
+
+  const cargarDatos = useCallback(async () => {
+    setUsers(await fetch());
+  }, []);
 
   useEffect(() => {
     cargarDatos();
-  }, []);
-  // const cargarRoles = () => {
-  //   axios
-  //     .get("rol_controller/listar")
-  //     .then((resp) => {
-  //       if (resp?.data) {
-  //         console.log(resp.data);
-  //         setRoles(resp.data);
-  //         setRoles1(
-  //           resp.data.filter(
-  //             (e) =>
-  //               !(e.nombreRol === "CLIENTE" || e.nombreRol === "ENTRENADOR")
-  //           )
-  //         );
-  //       }
-  //     })
-  //     .catch((error) => console.log(error.message));
-  // };
-  const cargarDatos = () => {
-    axios
-      .get("usuarios")
-      .then((resp) => {
-        if (resp) {
-          console.log(resp.data);
-          setUsers(resp.data);
-          // cargarRoles();
-        }
-      })
-      .catch((error) => console.log(error.message));
+  }, [cargarDatos]);
+
+  const modifyElement = async (element) => {
+    if (await modify(element)) cargarDatos();
   };
-  const modifyElement = (element) => {
-    console.log(element);
-    axios
-      .patch("usuarios", element)
-      .then((resp) => {
-        cargarDatos();
-      })
-      .catch((error) => console.log(error.message));
+  const createElement = async (element) => {
+    if (await create(element)) cargarDatos();
   };
-  const createElement = (element) => {
-    axios
-      .post("usuarios", element)
-      .then((resp) => {
-        cargarDatos();
-      })
-      .catch((error) => console.log(error.message));
-  };
-  const deleteElement = (id) => {
+  const deleteElement = async (id) => {
     // if (JSON.parse(localStorage.getItem("user")).idUsuario === id) {
     //   fireError("No puede eliminar el usuario actualmente logeado");
     //   return;
     // }
-    axios
-      .delete(`usuarios/${id}`, id)
-      .then((_) => {
-        cargarDatos();
-      })
-      .catch((error) => {
-        console.log(error.message);
-      });
+    if (await remove(id)) cargarDatos();
   };
-  const deleteSeveralElement = (arrayId) => {
-    // if (arrayId.includes(JSON.parse(localStorage.getItem("user")).idUsuario)) {
-    //   fireError("No puede eliminar el usuario actualmente logeado");
-    //   return;
-    // }
-    axios
-      .delete("usuarios", { data: arrayId })
-      .then((_) => {
-        cargarDatos();
-      })
-      .catch((error) => console.log(error.message));
+
+  const deleteSeveralElement = async (arrayId) => {
+    if (await bulkRemove(arrayId)) cargarDatos();
   };
+
+  const saveElement = (action, data) => {
+    action === "create" ? createElement(data) : modifyElement(data);
+  };
+
   const filters = {
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
     username: { value: null, matchMode: FilterMatchMode.CONTAINS },
   };
-  let c = [
-    { field: "username", header: "Nombre de Usuario" },
-  ];
+  let c = [{ field: "username", header: "Nombre de Usuario" }];
 
   let emptyElement = { username: "" };
 
   const confirmForcePassword = (elem) => {
-    console.log(elem,"first")
     confirmDialog({
       header: "Confirmación",
       message: `¿Desea resetear la contraseña al usuario ${elem.username}?`,
@@ -140,62 +104,59 @@ export const Users = () => {
       .lowercase("Nombre de usuario debe ser en minúsculas")
       .trim("Nombre de usuario no puede contener espacios"),
   });
-  let dataStruct = [
-    {
-      id: 1,
-      label: "Nombre de usuario:*",
-      component: "InputText",
-      name: "username",
-      defaultValue: "",
-    },
-  ];
-  const formProps = {
-    data: dataStruct,
-    schema: schema,
-    handle: [createElement, modifyElement],
-    buttonsNames: ["Guardar", "Cancelar"],
-  };
+  const renderForm = (handle, defaultValues) => (
+    <Form ref={ref} handle={handle} schema={schema}>
+      <Field
+        label="Nombre de usuario"
+        defaultValue={isEmpty(defaultValues) ? "" : defaultValues["username"]}
+        name="username"
+        render={(field) => <InputText {...field} />}
+      />
+    </Form>
+  );
+
+  if (loading) return <Loading />;
+  if (error) return <div>Something when wrong!!</div>;
   return (
-    <div>
-      {!users && (
-        <Loading />
-      )}
-      {users ? (
-        <div>
-          <Table
-            value={users}
-            header="Usuarios"
-            size="small"
-            columns={c}
-            pagination={true}
-            rowNumbers={[10, 20, 30]}
-            selectionType="multiple"
-            sortRemove
-            orderSort={1}
-            fieldSort="username"
-            filterDplay="row"
-            filtersValues={filters}
-            edit={true}
-            exportData={true}
-            removeOne={deleteElement}
-            removeSeveral={deleteSeveralElement}
-            formProps={formProps}
-            emptyElement={emptyElement}
-            additionalButtons={[
-              [
-                <Button
-                  icon="pi pi-unlock"
-                  className="p-button-rounded p-button-text mr-2"
-                  data-pr-tooltip="Forzar contraseña"
-                />,
-                // confirmForcePassword,
-                forzarPassword,
-              ],
-            ]}
-          />
-        </div>
-      ) : //poner cargar
-      undefined}
-    </div>
+    <Table
+      value={users}
+      header="Usuarios"
+      size="small"
+      columns={c}
+      pagination={true}
+      rowNumbers={[10, 20, 30]}
+      selectionType="multiple"
+      sortRemove
+      orderSort={1}
+      fieldSort="username"
+      filterDplay="row"
+      filtersValues={filters}
+      edit={true}
+      exportData={true}
+      removeOne={deleteElement}
+      removeSeveral={deleteSeveralElement}
+      renderForm={renderForm}
+      actionSubmit={saveElement}
+      emptyElement={emptyElement}
+      additionalButtons={[
+        [
+          <Button
+            icon="pi pi-unlock"
+            className="p-button-rounded p-button-text mr-2"
+            data-pr-tooltip="Forzar contraseña"
+          />,
+          confirmForcePassword,
+        ],
+      ]}
+    >
+      <Column
+        field="username"
+        header="Nombre de usuario"
+        body={columnBodyChecker}
+        sortable
+        filter
+        filterField="username"
+      />
+    </Table>
   );
 };

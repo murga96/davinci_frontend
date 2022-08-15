@@ -3,7 +3,7 @@ import API from '../../API'
 /*
 * Mutaciones disponibles para reallizar a una entidad
 */
-export const actionTypes = {
+export const mutationTypes = {
     CREATE: "CREATE",
     MODIFY: "MODIFY",
     REMOVE: "REMOVE",

@@ -9,15 +9,15 @@ import { InputText } from "primereact/inputtext";
 import { Field } from "./ui/form/Field";
 import { isEmpty } from "lodash";
 import { useFetch } from "./hooks/useFetch";
-import { useMutation, actionTypes } from "./hooks/useMutation";
+import { useMutation, mutationTypes } from "./hooks/useMutation";
 
 export const Subservicios = () => {
   const [subservicios, setSubservicios] = useState(null);
   const [fetch, loading, error] = useFetch("subservicios");
-  const [create] = useMutation(actionTypes.CREATE,"subservicios");
-  const [modify] = useMutation(actionTypes.CREATE,"subservicios");
-  const [remove] = useMutation(actionTypes.REMOVE,"subservicios");
-  const [bulkRemove] = useMutation(actionTypes.BULK_REMOVE,"subservicios");
+  const [create] = useMutation(mutationTypes.CREATE,"subservicios");
+  const [modify] = useMutation(mutationTypes.CREATE,"subservicios");
+  const [remove] = useMutation(mutationTypes.REMOVE,"subservicios");
+  const [bulkRemove] = useMutation(mutationTypes.BULK_REMOVE,"subservicios");
   const ref = useRef(null);
 
   const cargarDatos = useCallback(
